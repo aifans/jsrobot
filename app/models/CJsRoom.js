@@ -1,12 +1,17 @@
 var logger = require('log4js').getLogger('server.js');
 
+var CRobotLocation = require('./CRobotLocation.js');
+var EnumCommand = require('./EnumCommand.js');
+var EnumDirection = require('./EnumDirection.js');
+
 class CJsRoom {
     
     constructor() {
-        this.type = 0;
-        this.len = 0;
+        this.length = 0;
+        this.width = 0;
+        this.grid = new Array();
         
-        this.room = new Array();
+        this.robotLocation = null;
         
         logger.debug('CJsRoom constructing....');
     }
@@ -32,12 +37,14 @@ class CJsRoom {
 
     }
     
-    initRobot() {
+    initRobot(point) {
+        this.robotLocation = new CRobotLocation(point, EnumDirection.NORTH);
         
+        logger.debug(this.robotLocation.toString());
     }
     
     moveRobot(commandString) {
-        
+        logger.debug(EnumCommand.TURN_LEFT)
     }
     
     isWall(point) {

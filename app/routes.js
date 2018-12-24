@@ -1,7 +1,9 @@
+var logger = require('log4js').getLogger('server.js');
+
 var CJsRoom = require('./models/CJsRoom.js');
 var jsRobot = require('./models/jsRobot.js');
-
-var logger = require('log4js').getLogger('server.js');
+var robotLocation = require('./models/CRobotLocation.js');
+var CPoint = require('./models/CPoint.js');
 
 module.exports = function(app) {
 
@@ -55,6 +57,8 @@ function initRoom(type, len) {
     var jsRoom = new CJsRoom();
     
     jsRoom.initRoom(type, len);
+    jsRoom.initRobot(new CPoint(1, 2));
+    jsRoom.moveRobot('HGHGGHGHG');
     
     return jsRoom;
 }

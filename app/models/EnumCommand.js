@@ -1,10 +1,7 @@
-var EnumCommand = {
-  R:    'RIGHT',
-  F:    'FORWARD',
-  L:    'LEFT',
-  H:    'RIGHT',
-  G:    'FORWARD',
-  V:    'LEFT',
+const EnumCommand = {
+  TURN_LEFT:     'L',
+  TURN_RIGHT:    'R',
+  MOVE_FORWARD:  'F',
 };
 
 module.exports = EnumCommand;

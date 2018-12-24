@@ -1,4 +1,4 @@
-var CPoint = require('./models/CPoint.js');
+var logger = require('log4js').getLogger('server.js');
 
 class CRobotLocation {
     
@@ -7,6 +7,10 @@ class CRobotLocation {
         this.direction = direction;
         
         logger.debug('CRobotLocation constructing....');
+    }
+    
+    toString() {
+        return '('+this.point.x+' '+this.point.y+' '+this.direction+')';
     }
     
 }
