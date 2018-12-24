@@ -1,7 +1,18 @@
 var logger = require('log4js').getLogger('server.js');
 
-module.exports = {
-    init: function(type, len) {
+class CJsRoom {
+    
+    constructor() {
+        this.type = 0;
+        this.len = 0;
+        
+        this.room = new Array();
+        
+        logger.debug('CJsRoom constructing....');
+    }
+    
+    initRoom(type, len) {
+        
         logger.info('initing room ......');
         logger.debug(type, len);
         
@@ -18,13 +29,20 @@ module.exports = {
         
         logger.info(room);
         return room;
-    },
 
-    initRobot: function() {
-        
-    },
+    }
     
-    moveRobot: function() {
+    initRobot() {
         
     }
-};
+    
+    moveRobot(commandString) {
+        
+    }
+    
+    isWall(point) {
+        
+    }
+}
+
+module.exports = CJsRoom;

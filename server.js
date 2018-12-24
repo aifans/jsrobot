@@ -29,11 +29,11 @@ var identityKey = 'jsrobot';
 app.use(session({
     name: identityKey,
     secret: 'jsrobot-secret',  // 用来对session id相关的cookie进行签名
-    store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
+//    store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
     saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
     resave: false,  // 是否每次都重新保存会话，建议false
     cookie: {
-        
+        maxAge: 3600 * 1000
     }
 }));
 
@@ -42,4 +42,4 @@ require('./app/routes.js')(app);
 
 // listen (start app with node server.js) ======================================
 app.listen(port);
-logger.info("App listening on port " + port);
+logger.info('App listening on port ' + port);

@@ -1,13 +1,33 @@
-var jsRoom = require('./models/jsRoom.js');
+var CJsRoom = require('./models/CJsRoom.js');
 var jsRobot = require('./models/jsRobot.js');
+
+var logger = require('log4js').getLogger('server.js');
 
 module.exports = function(app) {
 
     // initRoom?type=0&len=5
-    app.post('/api/initRoom', function(req, res) {
+    app.get('/api/initRoom', function(req, res) {
         
-        const verStr = {versionName : '2.0.0', versionCode : 200};
-        res.send(JSON.stringify(verStr));
+        const type = req.query.type;
+        const len = req.query.len;
+
+        //logger.debug(req.session.room);
+        
+        var jsRoomInited = null;
+        if (req.session.room) {
+            jsRoomInited = req.session.room;
+            
+            logger.info('room existed in session.');
+            
+        } else {
+            jsRoomInited = initRoom(type, len);
+            req.session.room = jsRoomInited;
+            
+            logger.info('room created and saved in session.');
+            
+        }
+        
+        res.send(type+','+len);
         
     });
 
@@ -30,3 +50,11 @@ module.exports = function(app) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
 };
+
+function initRoom(type, len) {
+    var jsRoom = new CJsRoom();
+    
+    jsRoom.initRoom(type, len);
+    
+    return jsRoom;
+}
