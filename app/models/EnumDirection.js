@@ -1,8 +1,8 @@
 const EnumDirection = {
-  EAST:     'E',
-  SOUTH:    'S',
-  WEST:     'W',
-  NORTH:    'N',
+    EAST:     'E',
+    SOUTH:    'S',
+    WEST:     'W',
+    NORTH:    'N',
 };
 
 module.exports = EnumDirection;

@@ -1,7 +1,7 @@
-var logger = require('log4js').getLogger('server.js');
+var logger = require('log4js').getLogger('router.js');
 
 var CJsRoom = require('./models/CJsRoom.js');
-var jsRobot = require('./models/jsRobot.js');
+var jsRobot = require('./models/CJsRobot.js');
 var robotLocation = require('./models/CRobotLocation.js');
 var CPoint = require('./models/CPoint.js');
 

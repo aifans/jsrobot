@@ -1,4 +1,4 @@
-var logger = require('log4js').getLogger('server.js');
+var logger = require('log4js').getLogger('CRobotLocation.js');
 
 class CRobotLocation {
     
