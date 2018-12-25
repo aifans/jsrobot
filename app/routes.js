@@ -1,36 +1,36 @@
-var logger = require('log4js').getLogger('router.js');
+let logger = require('log4js').getLogger('router.js');
 
-var CJsRoom = require('./models/CJsRoom.js');
-var jsRobot = require('./models/CJsRobot.js');
-var robotLocation = require('./models/CRobotLocation.js');
-var CPoint = require('./models/CPoint.js');
+let CJsRoom = require('./models/CJsRoom.js');
+let jsRobot = require('./models/CJsRobot.js');
+let robotLocation = require('./models/CRobotLocation.js');
+let CPoint = require('./models/CPoint.js');
 
 module.exports = function(app) {
 
     // initRoom?type=0&len=5
     app.get('/api/initRoom', function(req, res) {
-        
+
         const type = req.query.type;
         const len = req.query.len;
 
         //logger.debug(req.session.room);
-        
-        var jsRoomInited = null;
+
+        let jsRoomInited = null;
         if (req.session.room) {
             jsRoomInited = req.session.room;
-            
+
             logger.info('room existed in session.');
-            
+
         } else {
             jsRoomInited = initRoom(type, len);
             req.session.room = jsRoomInited;
-            
+
             logger.info('room created and saved in session.');
-            
+
         }
-        
+
         res.send(type+','+len);
-        
+
     });
 
     app.post('/api/initRobot', function(req, res) {
@@ -54,11 +54,11 @@ module.exports = function(app) {
 };
 
 function initRoom(type, len) {
-    var jsRoom = new CJsRoom();
-    
+    let jsRoom = new CJsRoom();
+
     jsRoom.initRoom(type, len);
     jsRoom.initRobot(new CPoint(1, 2));
     jsRoom.moveRobot('HGHGGHGHG');
-    
+
     return jsRoom;
 }
