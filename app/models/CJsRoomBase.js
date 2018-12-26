@@ -44,6 +44,18 @@ class CJsRoomBase {
 
     }
 
+    robotCanMoveTo(point) {
+
+        let isInRoom = (point.x>=0 && point.y>=0) && (point.x<= this.length && point.y<= this.width) && (this.grid[point.x, point.y] == 0);
+
+        if (isInRoom) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
     move() {
         logger.debug('move move move ...');
         this.isWall();

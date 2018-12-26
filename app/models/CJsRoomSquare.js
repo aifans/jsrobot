@@ -25,9 +25,9 @@ class CJsRoomSquare extends CJsRoomBase {
         this.sideLength = sideLength;
 
         let grid = new Array();
-        for (let i = 0; i < sideLength; i++) {
+        for (let i = 0; i < this.length; i++) {
             grid[i] = new Array();
-            for (let j = 0; j < sideLength; j++) {
+            for (let j = 0; j < this.width; j++) {
                 grid[i][j] = 0;
             }
         }
@@ -59,18 +59,6 @@ class CJsRoomSquare extends CJsRoomBase {
         }
 
         this.move();
-    }
-
-    robotCanMoveTo(point) {
-
-        let isInRoom = (x>=0 && y>=0) && (x<= this.length && y<= this.width);
-
-        if (isInRoom) {
-            return true;
-        } else {
-            return false;
-        }
-
     }
 
     isWall(point) {

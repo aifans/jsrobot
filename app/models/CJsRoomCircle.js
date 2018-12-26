@@ -5,46 +5,43 @@ let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
 let EnumCommand = require('./EnumCommand.js');
 let EnumDirection = require('./EnumDirection.js');
-let EnumRoomType = require('./EnumRoomType.js');
 
 class CJsRoomCircle extends CJsRoomBase {
 
     constructor() {
         super();
 
-        this.length = 0;
-        this.width = 0;
-        this.grid = null;
-
-        this.robot = null;
-        this.robotLocation = null;
+        this.radius = 0;
 
         logger.debug('CJsRoomCircle constructing....');
     }
 
-    initRoom(enumRoomType) {
+    initRoom(radius) {
 
-        logger.info('initing room ......');
-        logger.debug(enumRoomType, arguments);
+        logger.info('initing room circle......');
 
-        switch (enumRoomType) {
+        this.length = radius*2+1;
+        this.width = radius*2+1;
+        this.radius = radius;
 
-            case EnumRoomType.SQUARE:
+        // 先生成包含的圆的矩形
+        let grid = new Array();
+        for (let i = 0; i < this.length; i++) {
+            grid[i] = new Array();
+            for (let j = 0; j < this.width; j++) {
+                grid[i][j] = 0;
 
-                let sideLength = arguments[1];
-                genSquareRoom(sideLength);
-                break;
-
-            case EnumRoomType.CIRCLE:
-
-                let radius = arguments[0];
-                genCircleRoom(radius);
-                break;
-
-            default:
-
+                // 离原点的距离的平方 >= 半径平方
+                // 这些点都不属于房间
+                if ((Math.pow((i-radius), 2) + Math.pow((j-radius), 2)) >= Math.pow(radius, 2)) {
+                    grid[i][j] = -1;
+                }
+            }
         }
 
+        this.grid = grid;
+
+        logger.info('room circle created.');
     }
 
     initRobot(point) {
@@ -63,35 +60,21 @@ class CJsRoomCircle extends CJsRoomBase {
         for (let i=0; i<cmdLen; i++) {
             logger.info('sending cmd to robot:', cmdString[i]);
 
-            this.robot.move(cmdString[i]);
-        }
+            let cmd = cmdString[i];
+            let currRobotLocation = this.robotLocation;
+            let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
 
-    }
-
-    isWall(point) {
-
-    }
-
-    genSquareRoom(sideLength) {
-
-        let room = new Array();
-        for (let i = 0; i < sideLength; i++) {
-            room[i] = new Array();
-            for (let j = 0; j < sideLength; j++) {
-                room[i][j] = 0;
+            if (this.robotCanMoveTo(nextRobotLocation.point)) {
+                this.robot.move(cmd);
+                this.robotLocation = nextRobotLocation;
             }
+
         }
 
-        this.grid = room;
-
-    }
-
-    genCircleRoom(radius) {
-        genSquareRoom(radius*2);
     }
 
     getNextRobotLocation(currRobotLocation, enumCmd) {
-
+        return this.robotLocation;
     }
 }
 
