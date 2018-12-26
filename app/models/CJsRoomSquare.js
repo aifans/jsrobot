@@ -1,23 +1,28 @@
 let logger = require('log4js').getLogger('CJsRoomSquare.js');
 
+let CJsRoomBase = require('./CJsRoomBase.js');
 let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
 let EnumCommand = require('./EnumCommand.js');
 let EnumDirection = require('./EnumDirection.js');
-let EnumRoomType = require('./EnumRoomType.js');
 
-class CJsRoomSquare extends CJsRoom {
+class CJsRoomSquare extends CJsRoomBase {
 
-    constructor(sideLength) {
+    constructor() {
+        super();
 
-        this.sideLength = sideLength;
+        this.sideLength = 0;
 
         logger.debug('CJsRoomSquare constructing....');
     }
 
-    initRoom() {
+    initRoom(sideLength) {
 
         logger.info('initing room square......');
+
+        this.length = sideLength;
+        this.width = sideLength;
+        this.sideLength = sideLength;
 
         let grid = new Array();
         for (let i = 0; i < sideLength; i++) {
@@ -42,18 +47,39 @@ class CJsRoomSquare extends CJsRoom {
         for (let i=0; i<cmdLen; i++) {
             logger.info('sending cmd to robot:', cmdString[i]);
 
-            this.robot.move(cmdString[i]);
+            let cmd = cmdString[i];
+            let currRobotLocation = this.robotLocation;
+            let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
+
+            if (this.robotCanMoveTo(nextRobotLocation.point)) {
+                this.robot.move(cmd);
+                this.robotLocation = nextRobotLocation;
+            }
+
+        }
+
+        this.move();
+    }
+
+    robotCanMoveTo(point) {
+
+        let isInRoom = (x>=0 && y>=0) && (x<= this.length && y<= this.width);
+
+        if (isInRoom) {
+            return true;
+        } else {
+            return false;
         }
 
     }
 
     isWall(point) {
-
+        logger.debug('CJsRoomSquare call this method...');
     }
 
     getNextRobotLocation(currRobotLocation, enumCmd) {
-
+        return this.robotLocation;
     }
 }
 
-module.exports = CJsRoom;
+module.exports = CJsRoomSquare;

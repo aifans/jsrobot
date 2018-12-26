@@ -1,14 +1,17 @@
-let logger = require('log4js').getLogger('CJsRoom.js');
+let logger = require('log4js').getLogger('CJsRoomCircle.js');
 
+let CJsRoomBase = require('./CJsRoomBase.js');
 let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
 let EnumCommand = require('./EnumCommand.js');
 let EnumDirection = require('./EnumDirection.js');
 let EnumRoomType = require('./EnumRoomType.js');
 
-class CJsRoom {
+class CJsRoomCircle extends CJsRoomBase {
 
     constructor() {
+        super();
+
         this.length = 0;
         this.width = 0;
         this.grid = null;
@@ -16,7 +19,7 @@ class CJsRoom {
         this.robot = null;
         this.robotLocation = null;
 
-        logger.debug('CJsRoom constructing....');
+        logger.debug('CJsRoomCircle constructing....');
     }
 
     initRoom(enumRoomType) {
@@ -92,4 +95,4 @@ class CJsRoom {
     }
 }
 
-module.exports = CJsRoom;
+module.exports = CJsRoomCircle;
