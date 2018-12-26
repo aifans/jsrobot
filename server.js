@@ -1,19 +1,19 @@
-var express = require('express');
-var port = process.env.PORT || 8080; 
+let express = require('express');
+let port = process.env.PORT || 8080;
 
-var path = require('path');
+let path = require('path');
 
-var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
+let bodyParser = require('body-parser');
+let methodOverride = require('method-override');
 
-var session = require('express-session');
-var FileStore = require('session-file-store')(session);
+let session = require('express-session');
+let FileStore = require('session-file-store')(session);
 
-var log4js = require('log4js');
+let log4js = require('log4js');
 log4js.configure('config/log4js.json');
-var logger = log4js.getLogger('server.js');
+let logger = log4js.getLogger('server.js');
 
-var app = express(); 
+let app = express();
 
 app.use(log4js.connectLogger(log4js.getLogger("http"), { level: 'trace' }));
 
@@ -25,15 +25,15 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse applicati
 
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
 
-var identityKey = 'jsrobot';
+let identityKey = 'jsrobot';
 app.use(session({
     name: identityKey,
     secret: 'jsrobot-secret',  // 用来对session id相关的cookie进行签名
-    store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
+//    store: new FileStore(),  // 本地存储session（文本文件，也可以选择其他store，比如redis的）
     saveUninitialized: false,  // 是否自动保存未初始化的会话，建议false
     resave: false,  // 是否每次都重新保存会话，建议false
     cookie: {
-        
+        maxAge: 3600 * 1000
     }
 }));
 
@@ -42,4 +42,4 @@ require('./app/routes.js')(app);
 
 // listen (start app with node server.js) ======================================
 app.listen(port);
-logger.info("App listening on port " + port);
+logger.info('App listening on port ' + port);
