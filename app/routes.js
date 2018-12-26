@@ -12,7 +12,7 @@ module.exports = function(app) {
     // initRoom?type=0&len=5
     app.get('/api/initRoom', function(req, res) {
 
-        const enumRoomType = req.query.type;
+        const enumRoomType = parseInt(req.query.type);
         //logger.debug(enumRoomType, typeof(req.query.type));
 
         //logger.debug(req.session.room);
@@ -42,14 +42,14 @@ module.exports = function(app) {
 
             case EnumRoomType.SQUARE:
 
-                const sideLength = req.query.len;
+                const sideLength = parseInt(req.query.len);
                 result = jsRoom.initRoom(sideLength);
 
                 break;
 
             case EnumRoomType.CIRCLE:
 
-                const radius = req.query.r;
+                const radius = parseInt(req.query.r);
                 result = jsRoom.initRoom(radius);
 
                 break;
@@ -58,8 +58,12 @@ module.exports = function(app) {
 
         }
 
-        jsRoom.initRobot(new CPoint(1, 2));
-        jsRoom.moveRobot('HGHGGHGHG');
+        //jsRoom.initRobot(new CPoint(1, 2));
+        //jsRoom.moveRobot('HGHGGHGHG');
+        //jsRoom.moveRobot('HG');
+
+        jsRoom.initRobot(new CPoint(0, 0));
+        jsRoom.moveRobot('RRFLFFLRF');
 
         req.session.room = jsRoom;
         res.json(jsRoom);
@@ -69,8 +73,8 @@ module.exports = function(app) {
     // initRobot?x=1&y=0
     app.post('/api/initRobot', function(req, res) {
 
-        const x = req.query.x;
-        const y = req.query.y;
+        const x = parseInt(req.query.x);
+        const y = parseInt(req.query.y);
         let jsRoom = req.session.room;
 
         let point = new CPoint(x, y);

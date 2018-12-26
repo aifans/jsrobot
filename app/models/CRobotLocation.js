@@ -6,7 +6,7 @@ class CRobotLocation {
         this.point = point;
         this.direction = direction;
 
-        logger.debug('CRobotLocation constructing....');
+        //logger.debug('CRobotLocation constructing....');
     }
 
     toString() {

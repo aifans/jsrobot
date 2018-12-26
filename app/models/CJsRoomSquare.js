@@ -16,6 +16,10 @@ class CJsRoomSquare extends CJsRoomBase {
         logger.debug('CJsRoomSquare constructing....');
     }
 
+    getRobotLocation() {
+        return this.robotLocation;
+    }
+
     initRoom(sideLength) {
 
         logger.info('initing room square......');
@@ -38,36 +42,14 @@ class CJsRoomSquare extends CJsRoomBase {
 
     }
 
-    moveRobot(commandString) {
-        //logger.debug(commandString);
+    initRobot(point) {
+        this.robot = new CJsRobot();
+        this.robotLocation = new CRobotLocation(point, EnumDirection.NORTH);
 
-        let cmdString = commandString.toUpperCase();
-        let cmdLen = cmdString.length;
-
-        for (let i=0; i<cmdLen; i++) {
-            logger.info('sending cmd to robot:', cmdString[i]);
-
-            let cmd = cmdString[i];
-            let currRobotLocation = this.robotLocation;
-            let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
-
-            if (this.robotCanMoveTo(nextRobotLocation.point)) {
-                this.robot.move(cmd);
-                this.robotLocation = nextRobotLocation;
-            }
-
-        }
-
-        this.move();
+        logger.debug(this.robotLocation.toString());
     }
 
-    isWall(point) {
-        logger.debug('CJsRoomSquare call this method...');
-    }
 
-    getNextRobotLocation(currRobotLocation, enumCmd) {
-        return this.robotLocation;
-    }
 }
 
 module.exports = CJsRoomSquare;

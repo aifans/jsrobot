@@ -5,6 +5,7 @@ let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
 let EnumCommand = require('./EnumCommand.js');
 let EnumDirection = require('./EnumDirection.js');
+let CPoint = require('./CPoint.js');
 
 class CJsRoomCircle extends CJsRoomBase {
 
@@ -14,6 +15,13 @@ class CJsRoomCircle extends CJsRoomBase {
         this.radius = 0;
 
         logger.debug('CJsRoomCircle constructing....');
+    }
+
+    getRobotLocation() {
+        let point = coord2Circle(this.robotLocation.point);
+        let robotLocation = new CRobotLocation(point, this.robotLocation.direction);
+
+        return robotLocation;
     }
 
     initRoom(radius) {
@@ -46,36 +54,25 @@ class CJsRoomCircle extends CJsRoomBase {
 
     initRobot(point) {
         this.robot = new CJsRobot();
-        this.robotLocation = new CRobotLocation(point, EnumDirection.NORTH);
+        let squarePoint = this.coord2Square(point);
+        this.robotLocation = new CRobotLocation(squarePoint, EnumDirection.NORTH);
 
         logger.debug(this.robotLocation.toString());
     }
 
-    moveRobot(commandString) {
-        //logger.debug(commandString);
+    coord2Square(circlePoint) {
+        let point = new CPoint(circlePoint.x+this.radius, circlePoint.y+this.radius);
 
-        let cmdString = commandString.toUpperCase();
-        let cmdLen = cmdString.length;
-
-        for (let i=0; i<cmdLen; i++) {
-            logger.info('sending cmd to robot:', cmdString[i]);
-
-            let cmd = cmdString[i];
-            let currRobotLocation = this.robotLocation;
-            let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
-
-            if (this.robotCanMoveTo(nextRobotLocation.point)) {
-                this.robot.move(cmd);
-                this.robotLocation = nextRobotLocation;
-            }
-
-        }
-
+        return point;
     }
 
-    getNextRobotLocation(currRobotLocation, enumCmd) {
-        return this.robotLocation;
+    coord2Circle(squarePoint) {
+        let point = new CPoint(circlePoint.x-this.radius, circlePoint.y-this.radius);
+
+        return point;
     }
+
+
 }
 
 module.exports = CJsRoomCircle;

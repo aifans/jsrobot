@@ -62,7 +62,7 @@
         "maxInfo",
         "minError"
       ],
-      "level": "all"
+      "level": "info"
     }
   }
 }

@@ -1,4 +1,4 @@
-let logger = require('log4js').getLogger('CJsRoomFactory.js');
+let logger = require('log4js').getLogger('CJsRoom.js');
 
 //let CJsRoom = require('./CJsRoom.js');
 let CJsRoomSquare = require('./CJsRoomSquare.js');
