@@ -1,5 +1,7 @@
 let logger = require('log4js').getLogger('CJsRoomBase.js');
 
+let CResult = require('./CResult.js');
+
 let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
 let EnumCommand = require('./EnumCommand.js');
@@ -48,7 +50,7 @@ class CJsRoomBase {
             //logger.debug('next: ', nextRobotLocation.toString());
             //logger.debug('current: ', currRobotLocation.toString());
             if (this.robotCanMoveTo(nextRobotLocation.point)) {
-                //this.robot.move(cmd);
+                this.robot.move(cmd);
                 this.robotLocation = nextRobotLocation;
 
                 logger.info(currRobotLocation.toString(), '===>', nextRobotLocation.toString());

@@ -2,6 +2,8 @@ let logger = require('log4js').getLogger('router.js');
 
 let serialUtility = require('serialijse');
 
+let CResult = require('./models/CResult.js');
+
 let EnumRoomType = require('./models/EnumRoomType.js');
 
 let CJsRoom = require('./models/CJsRoom.js');
@@ -10,6 +12,7 @@ let CJsRoomCircle = require('./models/CJsRoomCircle.js');
 let CJsRobot = require('./models/CJsRobot.js');
 let CRobotLocation = require('./models/CRobotLocation.js');
 let CPoint = require('./models/CPoint.js');
+
 
 serialUtility.declarePersistable(CJsRoomSquare);
 serialUtility.declarePersistable(CJsRoomCircle);
@@ -21,6 +24,8 @@ module.exports = function(app) {
 
     // initRoom?type=0&len=5
     app.get('/api/initRoom', function(req, res) {
+
+        let result = null;
 
         const enumRoomType = parseInt(req.query.type);
         //logger.debug(enumRoomType, typeof(req.query.type));
@@ -46,25 +51,41 @@ module.exports = function(app) {
         let jsRoom = CJsRoom.initRoom(enumRoomType);
         logger.debug(typeof(jsRoom));
 
-        let result = null;
         switch (enumRoomType) {
 
             case EnumRoomType.SQUARE:
 
                 const sideLength = parseInt(req.query.len);
-                result = jsRoom.initRoom(sideLength);
+                if (sideLength) {
+                    jsRoom.initRoom(sideLength);
+
+                    CResult.SUCCESS.setData(jsRoom);
+                    result = CResult.SUCCESS;
+                } else {
+                    CResult.FAILED.setData('room square needs arg [len].');
+                    result = CResult.FAILED;
+                }
 
                 break;
 
             case EnumRoomType.CIRCLE:
 
                 const radius = parseInt(req.query.r);
-                result = jsRoom.initRoom(radius);
+                if (radius) {
+                    jsRoom.initRoom(radius);
+
+                    CResult.SUCCESS.setData(jsRoom);
+                    result = CResult.SUCCESS;
+                } else {
+                    CResult.FAILED.setData('room circle needs arg [r].');
+                    result = CResult.FAILED;
+                }
 
                 break;
 
             default:
-
+                CResult.FAILED.setData('room type error.');
+                result = CResult.FAILED;
         }
 
         //jsRoom.initRobot(new CPoint(1, 2));
@@ -89,7 +110,8 @@ module.exports = function(app) {
         // req.session.room = JSON.stringify(jsRoom);
         //let robotLocation = jsRoom.getRobotLocation();
         //res.json('(' + robotLocation.point.x +' '+ robotLocation.point.y +' '+ robotLocation.direction +')');
-        res.json(jsRoom);
+
+        res.json(result);
 
     });
 

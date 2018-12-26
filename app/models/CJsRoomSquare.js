@@ -1,5 +1,7 @@
 let logger = require('log4js').getLogger('CJsRoomSquare.js');
 
+let CResult = require('./CResult.js');
+
 let CJsRoomBase = require('./CJsRoomBase.js');
 let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
