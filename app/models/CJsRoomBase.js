@@ -48,7 +48,7 @@ class CJsRoomBase {
             //logger.debug('next: ', nextRobotLocation.toString());
             //logger.debug('current: ', currRobotLocation.toString());
             if (this.robotCanMoveTo(nextRobotLocation.point)) {
-                this.robot.move(cmd);
+                //this.robot.move(cmd);
                 this.robotLocation = nextRobotLocation;
 
                 logger.info(currRobotLocation.toString(), '===>', nextRobotLocation.toString());
@@ -70,15 +70,6 @@ class CJsRoomBase {
             return false;
         }
 
-    }
-
-    move() {
-        logger.debug('move move move ...');
-        this.isWall();
-    }
-
-    isWall(point) {
-        logger.debug('subclass should implement this method...');
     }
 
     getNextRobotLocation(currRobotLocation, enumCmd) {
@@ -165,6 +156,7 @@ class CJsRoomBase {
         //logger.debug('current in getNextRobotLocation() end: ', currRobotLocation.toString());
         return nextRobotLocation;
     }
+
 
 }
 

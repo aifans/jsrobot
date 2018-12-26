@@ -46,7 +46,7 @@ class CJsRoomSquare extends CJsRoomBase {
         this.robot = new CJsRobot();
         this.robotLocation = new CRobotLocation(point, EnumDirection.NORTH);
 
-        logger.debug(this.robotLocation.toString());
+        logger.info('robot init location:', this.robotLocation.toString());
     }
 
 
