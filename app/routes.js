@@ -1,9 +1,6 @@
 let logger = require('log4js').getLogger('router.js');
 
-//let CJsRoom = require('./models/CJsRoom.js');
 let CJsRoom = require('./models/CJsRoom.js');
-let jsRobot = require('./models/CJsRobot.js');
-let robotLocation = require('./models/CRobotLocation.js');
 let CPoint = require('./models/CPoint.js');
 let EnumRoomType = require('./models/EnumRoomType.js');
 
@@ -58,15 +55,16 @@ module.exports = function(app) {
 
         }
 
-        //jsRoom.initRobot(new CPoint(1, 2));
-        //jsRoom.moveRobot('HGHGGHGHG');
-        //jsRoom.moveRobot('HG');
+        jsRoom.initRobot(new CPoint(1, 2));
+        jsRoom.moveRobot('HGHGGHGHG');
 
-        jsRoom.initRobot(new CPoint(0, 0));
-        jsRoom.moveRobot('RRFLFFLRF');
+        //jsRoom.initRobot(new CPoint(0, 0));
+        //jsRoom.moveRobot('RRFLFFLRF');
 
         req.session.room = jsRoom;
-        res.json(jsRoom);
+
+        let robotLocation = jsRoom.getRobotLocation();
+        res.json('(' + robotLocation.point.x +' '+ robotLocation.point.y +' '+ robotLocation.direction +')');
 
     });
 

@@ -18,7 +18,7 @@ class CJsRoomCircle extends CJsRoomBase {
     }
 
     getRobotLocation() {
-        let point = coord2Circle(this.robotLocation.point);
+        let point = this.coord2Circle(this.robotLocation.point);
         let robotLocation = new CRobotLocation(point, this.robotLocation.direction);
 
         return robotLocation;
@@ -67,7 +67,7 @@ class CJsRoomCircle extends CJsRoomBase {
     }
 
     coord2Circle(squarePoint) {
-        let point = new CPoint(circlePoint.x-this.radius, circlePoint.y-this.radius);
+        let point = new CPoint(squarePoint.x-this.radius, squarePoint.y-this.radius);
 
         return point;
     }
