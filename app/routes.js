@@ -101,13 +101,12 @@ module.exports = function(app) {
     app.get('/api/initRobot', function(req, res) {
 
         let result = null;
-        let jsRoom = null;
+        let jsRoom = serialUtility.deserialize(req.session.room);
 
         const x = +req.query.x;
         const y = +req.query.y;
 
         if (x && y) {
-            jsRoom = serialUtility.deserialize(req.session.room);
 
             let point = new CPoint(x, y);
             result = jsRoom.initRobot(point);
@@ -128,13 +127,11 @@ module.exports = function(app) {
     app.get('/api/moveRobot', function(req, res) {
 
         let result = null;
-        let jsRoom = null;
+        let jsRoom = serialUtility.deserialize(req.session.room);
 
         const cmd = req.query.cmd;
 
         if (cmd) {
-
-            jsRoom = serialUtility.deserialize(req.session.room);
 
             result = jsRoom.moveRobot(cmd);
 
