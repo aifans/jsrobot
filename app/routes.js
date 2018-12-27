@@ -13,6 +13,7 @@ let CJsRobot = require('./models/CJsRobot.js');
 let CRobotLocation = require('./models/CRobotLocation.js');
 let CPoint = require('./models/CPoint.js');
 
+let url = require('url');
 
 serialUtility.declarePersistable(CJsRoomSquare);
 serialUtility.declarePersistable(CJsRoomCircle);
@@ -29,8 +30,11 @@ module.exports = function(app) {
         let result = null;
         let jsRoom = null;
 
+        let queryString = url.parse(req.url, true).query;
+        logger.info(queryString);
+
         const enumRoomType = +req.query.type;
-        if (enumRoomType) {
+        if (Number.isInteger(enumRoomType)) {
 
             jsRoom = CJsRoom.initRoom(enumRoomType);
 
@@ -39,13 +43,14 @@ module.exports = function(app) {
                 case EnumRoomType.SQUARE:
 
                     const sideLength = +req.query.len;
-                    if (sideLength) {
+                    if (Number.isInteger(sideLength)) {
                         jsRoom.initRoom(sideLength);
 
                         CResult.SUCCESS.setData(jsRoom);
                         result = CResult.SUCCESS;
                     } else {
                         CResult.FAILED.setMsg('room square [len] must be int.');
+                        CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
                         result = CResult.FAILED;
 
                         logger.error(result);
@@ -56,13 +61,14 @@ module.exports = function(app) {
                 case EnumRoomType.CIRCLE:
 
                     const radius = +req.query.r;
-                    if (radius) {
+                    if (Number.isInteger(radius)) {
                         jsRoom.initRoom(radius);
 
                         CResult.SUCCESS.setData(jsRoom);
                         result = CResult.SUCCESS;
                     } else {
                         CResult.FAILED.setMsg('room circle [r] must be int.');
+                        CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
                         result = CResult.FAILED;
 
                         logger.error(result);
@@ -72,6 +78,7 @@ module.exports = function(app) {
 
                 default:
                     CResult.FAILED.setMsg('room type error.');
+                    CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
                     result = CResult.FAILED;
 
                     logger.error(result);
@@ -79,6 +86,7 @@ module.exports = function(app) {
 
         } else {
             CResult.FAILED.setMsg('room type [type] must be int.');
+            CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
             result = CResult.FAILED;
 
             logger.error(result);
@@ -100,19 +108,23 @@ module.exports = function(app) {
     // initRobot?x=1&y=2
     app.get('/api/initRobot', function(req, res) {
 
+        let queryString = url.parse(req.url, true).query;
+        logger.info(queryString);
+
         let result = null;
         let jsRoom = serialUtility.deserialize(req.session.room);
 
         const x = +req.query.x;
         const y = +req.query.y;
 
-        if (x && y) {
+        if (Number.isInteger(x) && Number.isInteger(y)) {
 
             let point = new CPoint(x, y);
             result = jsRoom.initRobot(point);
 
         } else {
-            CResult.FAILED.setMsg('robot\' coordinate [x][y] must be int.');
+            CResult.FAILED.setMsg('robot coordinate [x][y] must be int.');
+            CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
             result = CResult.FAILED;
 
             logger.error(result);
@@ -126,6 +138,9 @@ module.exports = function(app) {
     // moveRobot?cmd=HGHGGHGHG
     app.get('/api/moveRobot', function(req, res) {
 
+        let queryString = url.parse(req.url, true).query;
+        logger.info(queryString);
+
         let result = null;
         let jsRoom = serialUtility.deserialize(req.session.room);
 
@@ -137,6 +152,7 @@ module.exports = function(app) {
 
         } else {
             CResult.FAILED.setMsg('move robot require [cmd].');
+            CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
             result = CResult.FAILED;
 
             logger.error(result);

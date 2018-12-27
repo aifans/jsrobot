@@ -1,6 +1,6 @@
 class CResult {
 
-    constructor(code,msg,data) {
+    constructor(code, msg, data) {
         this.code = code;
         this.msg = msg;
         this.data = data;
