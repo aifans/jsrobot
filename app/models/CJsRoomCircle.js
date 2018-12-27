@@ -1,5 +1,7 @@
 let logger = require('log4js').getLogger('CJsRoomCircle.js');
 
+let CResult = require('./CResult.js');
+
 let CJsRoomBase = require('./CJsRoomBase.js');
 let CJsRobot = require('./CJsRobot.js');
 let CRobotLocation = require('./CRobotLocation.js');
@@ -53,21 +55,41 @@ class CJsRoomCircle extends CJsRoomBase {
     }
 
     initRobot(point) {
-        this.robot = new CJsRobot();
-        let squarePoint = this.coord2Square(point);
-        this.robotLocation = new CRobotLocation(squarePoint, EnumDirection.NORTH);
+        let result = null;
 
-        logger.info('robot init location:', this.getRobotLocation().toString());
+        if (this.isInRoom(point)) {
+
+            this.robot = new CJsRobot();
+            let squarePoint = this.coord2Square(point);
+            this.robotLocation = new CRobotLocation(squarePoint, EnumDirection.NORTH);
+
+            logger.info('robot init location:', this.getRobotLocation().toString());
+
+            CResult.SUCCESS.setData(this.getRobotLocation());
+            result = CResult.SUCCESS;
+
+        } else {
+
+            CResult.POSITION_NOT_IN_ROOM.setData(point.toString());
+            result = CResult.POSITION_NOT_IN_ROOM;
+
+        }
+
+        return result;
     }
 
     coord2Square(circlePoint) {
-        let point = new CPoint(circlePoint.x+this.radius, circlePoint.y+this.radius);
+        let x = circlePoint.x+this.radius;
+        let y = circlePoint.y+this.radius;
+        let point = new CPoint(x, y);
 
         return point;
     }
 
     coord2Circle(squarePoint) {
-        let point = new CPoint(squarePoint.x-this.radius, squarePoint.y-this.radius);
+        let x = squarePoint.x-this.radius;
+        let y = squarePoint.y-this.radius;
+        let point = new CPoint(x, y);
 
         return point;
     }

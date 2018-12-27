@@ -45,10 +45,27 @@ class CJsRoomSquare extends CJsRoomBase {
     }
 
     initRobot(point) {
-        this.robot = new CJsRobot();
-        this.robotLocation = new CRobotLocation(point, EnumDirection.NORTH);
 
-        logger.info('robot init location:', this.robotLocation.toString());
+        let result = null;
+
+        if (this.isInRoom(point)) {
+
+            this.robot = new CJsRobot();
+            this.robotLocation = new CRobotLocation(point, EnumDirection.NORTH);
+
+            logger.info('robot init location:', this.getRobotLocation().toString());
+
+            CResult.SUCCESS.setData(this.getRobotLocation());
+            result = CResult.SUCCESS;
+
+        } else {
+
+            CResult.POSITION_NOT_IN_ROOM.setData(point.toString());
+            result = CResult.POSITION_NOT_IN_ROOM;
+
+        }
+
+        return result;
     }
 
 

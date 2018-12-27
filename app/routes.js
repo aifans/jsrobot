@@ -26,66 +26,53 @@ module.exports = function(app) {
     app.get('/api/initRoom', function(req, res) {
 
         let result = null;
+        let jsRoom = null;
 
         const enumRoomType = parseInt(req.query.type);
-        //logger.debug(enumRoomType, typeof(req.query.type));
+        if (enumRoomType) {
 
-        //logger.debug(req.session.room);
+            jsRoom = CJsRoom.initRoom(enumRoomType);
 
-/*
-        let jsRoomInited = null;
-        if (req.session.room) {
-            jsRoomInited = req.session.room;
+            switch (enumRoomType) {
 
-            logger.info('room existed in session.');
+                case EnumRoomType.SQUARE:
+
+                    const sideLength = parseInt(req.query.len);
+                    if (sideLength) {
+                        jsRoom.initRoom(sideLength);
+
+                        CResult.SUCCESS.setData(jsRoom);
+                        result = CResult.SUCCESS;
+                    } else {
+                        CResult.FAILED.setMsg('room square [len] must be int.');
+                        result = CResult.FAILED;
+                    }
+
+                    break;
+
+                case EnumRoomType.CIRCLE:
+
+                    const radius = parseInt(req.query.r);
+                    if (radius) {
+                        jsRoom.initRoom(radius);
+
+                        CResult.SUCCESS.setData(jsRoom);
+                        result = CResult.SUCCESS;
+                    } else {
+                        CResult.FAILED.setMsg('room circle [r] must be int.');
+                        result = CResult.FAILED;
+                    }
+
+                    break;
+
+                default:
+                    CResult.FAILED.setMsg('room type error.');
+                    result = CResult.FAILED;
+            }
 
         } else {
-            jsRoomInited = initRoom(type, len);
-            req.session.room = jsRoomInited;
-
-            logger.info('room created and saved in session.');
-
-        }
- */
-
-        let jsRoom = CJsRoom.initRoom(enumRoomType);
-        logger.debug(typeof(jsRoom));
-
-        switch (enumRoomType) {
-
-            case EnumRoomType.SQUARE:
-
-                const sideLength = parseInt(req.query.len);
-                if (sideLength) {
-                    jsRoom.initRoom(sideLength);
-
-                    CResult.SUCCESS.setData(jsRoom);
-                    result = CResult.SUCCESS;
-                } else {
-                    CResult.FAILED.setData('room square needs arg [len].');
-                    result = CResult.FAILED;
-                }
-
-                break;
-
-            case EnumRoomType.CIRCLE:
-
-                const radius = parseInt(req.query.r);
-                if (radius) {
-                    jsRoom.initRoom(radius);
-
-                    CResult.SUCCESS.setData(jsRoom);
-                    result = CResult.SUCCESS;
-                } else {
-                    CResult.FAILED.setData('room circle needs arg [r].');
-                    result = CResult.FAILED;
-                }
-
-                break;
-
-            default:
-                CResult.FAILED.setData('room type error.');
-                result = CResult.FAILED;
+            CResult.FAILED.setMsg('room type [type] must be int.');
+            result = CResult.FAILED;
         }
 
         //jsRoom.initRobot(new CPoint(1, 2));
@@ -94,22 +81,8 @@ module.exports = function(app) {
         //jsRoom.initRobot(new CPoint(0, 0));
         //jsRoom.moveRobot('RRFLFFLRF');
 
-        //const obj = JSON.parse(JSON.stringify(jsRoom));
-        //const room = Object.create(CJsRoomSquare.prototype, Object.getOwnPropertyDescriptors(obj));
-        //room.initRobot(new CPoint(1, 2));
-        //room.moveRobot('HGHGGHGHG');
-
-
         req.session.roomtype = enumRoomType;
-
-        //serialUtility.declarePersistable(CJsRoomSquare);
-        //serialUtility.declarePersistable(CJsRoomCircle);
-
         req.session.room = serialUtility.serialize(jsRoom);
-
-        // req.session.room = JSON.stringify(jsRoom);
-        //let robotLocation = jsRoom.getRobotLocation();
-        //res.json('(' + robotLocation.point.x +' '+ robotLocation.point.y +' '+ robotLocation.direction +')');
 
         res.json(result);
 
@@ -118,41 +91,50 @@ module.exports = function(app) {
     // initRobot?x=1&y=2
     app.get('/api/initRobot', function(req, res) {
 
+        let result = null;
+        let jsRoom = null;
+
         const x = parseInt(req.query.x);
         const y = parseInt(req.query.y);
 
-        //let jsRoom = getRoomFromSession(req.session.roomtype, req.session.room);
-        let jsRoom = serialUtility.deserialize(req.session.room);
+        if (x && y) {
+            jsRoom = serialUtility.deserialize(req.session.room);
 
-        let point = new CPoint(x, y);
-        let result = jsRoom.initRobot(point);
+            let point = new CPoint(x, y);
+            result = jsRoom.initRobot(point);
 
-        //req.session.room = JSON.stringify(jsRoom);
-
-        //serialUtility.declarePersistable(CJsRobot);
-        //serialUtility.declarePersistable(CRobotLocation);
-        //serialUtility.declarePersistable(CPoint);
+        } else {
+            CResult.FAILED.setMsg('robot\' coordinate [x][y] must be int.');
+            result = CResult.FAILED;
+        }
 
         req.session.room = serialUtility.serialize(jsRoom);
 
-        res.json(jsRoom);
+        res.json(result);
     });
 
     // moveRobot?cmd=HGHGGHGHG
     app.get('/api/moveRobot', function(req, res) {
 
+        let result = null;
+        let jsRoom = null;
+
         const cmd = req.query.cmd;
 
-        //let jsRoom = getRoomFromSession(req.session.roomtype, req.session.room);
-        let jsRoom = serialUtility.deserialize(req.session.room);
+        if (cmd) {
 
-        let result = jsRoom.moveRobot(cmd);
+            jsRoom = serialUtility.deserialize(req.session.room);
 
-        //req.session.room = JSON.stringify(jsRoom);
+            result = jsRoom.moveRobot(cmd);
+
+        } else {
+            CResult.FAILED.setMsg('move robot require [cmd].');
+            result = CResult.FAILED;
+        }
 
         req.session.room = serialUtility.serialize(jsRoom);
 
-        res.json(jsRoom);
+        res.json(result);
     });
 
     // application -------------------------------------------------------------
@@ -186,3 +168,4 @@ function getRoomFromSession(roomtype, roomString) {
 
     return jsRoom;
 }
+

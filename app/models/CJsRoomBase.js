@@ -37,30 +37,52 @@ class CJsRoomBase {
     moveRobot(commandString) {
         //logger.debug(commandString);
 
+        let result = null;
+
         let cmdString = commandString.toUpperCase();
         let cmdLen = cmdString.length;
 
         for (let i=0; i<cmdLen; i++) {
-            logger.info('sending cmd to robot:', cmdString[i]);
 
             let cmd = cmdString[i];
-            let currRobotLocation = this.robotLocation;
-            //logger.debug('current: ', currRobotLocation.toString());
-            let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
-            //logger.debug('next: ', nextRobotLocation.toString());
-            //logger.debug('current: ', currRobotLocation.toString());
-            if (this.robotCanMoveTo(nextRobotLocation.point)) {
-                this.robot.move(cmd);
-                this.robotLocation = nextRobotLocation;
 
-                logger.info(currRobotLocation.toString(), '===>', nextRobotLocation.toString());
+            if (this.cmdIsValid(cmd) && this.robot.canExcute(cmd)) {
+
+                logger.info('sending to robot:', cmd);
+
+                let currRobotLocation = this.robotLocation;
+                let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
+                if (this.isInRoom(nextRobotLocation.point)) {
+                    this.robot.move(cmd);
+                    this.robotLocation = nextRobotLocation;
+
+                    logger.info(currRobotLocation.toString(), '===>', nextRobotLocation.toString());
+
+                } else {
+                    logger.error('can not move to:', currRobotLocation.toString(), '--->', nextRobotLocation.point.toString());
+
+                    CResult.POSITION_NOT_IN_ROOM.setData(this.getRobotLocation());
+                    result = CResult.POSITION_NOT_IN_ROOM;
+                    return result;
+                }
+
+            } else {
+                logger.error('unknown command:', cmd);
+
+                CResult.UNKNOWN_COMMAND.setData(this.getRobotLocation()+'|'+cmd);
+                result = CResult.UNKNOWN_COMMAND;
+                return result;
             }
 
         }
 
+        CResult.SUCCESS.setData(this.getRobotLocation());
+        result = CResult.SUCCESS;
+        return result;
+
     }
 
-    robotCanMoveTo(point) {
+    isInRoom(point) {
 
         //logger.debug(point.toString(), this.grid[point.x][point.y]);
 
@@ -72,6 +94,30 @@ class CJsRoomBase {
             return false;
         }
 
+    }
+
+    cmdIsValid(cmd) {
+
+        let isValid = false;
+
+        switch (cmd) {
+            case EnumCommand.E_TURN_LEFT:
+            case EnumCommand.S_TURN_LEFT:
+            case EnumCommand.E_TURN_RIGHT:
+            case EnumCommand.S_TURN_RIGHT:
+            case EnumCommand.E_MOVE_FORWARD:
+            case EnumCommand.S_MOVE_FORWARD:
+            case EnumCommand.E_MOVE_BACKWARD:
+            case EnumCommand.S_MOVE_BACKWARD:
+
+                isValid = true;
+                break;
+
+            default:
+                isValid = false;
+        }
+
+        return isValid;
     }
 
     getNextRobotLocation(currRobotLocation, enumCmd) {
