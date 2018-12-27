@@ -1,0 +1,172 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="JsRoom">
+<head>
+    <!-- META -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+    <title>Robot Room</title>
+
+    <!-- SCROLLS -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        html                    { overflow-y:scroll; }
+        body                    { padding-top:50px; }
+        #todo-list              { margin-bottom:30px; }
+        #todo-form              { margin-bottom:50px; }
+
+        fieldset.scheduler-border {
+            border: 1px groove #ddd !important;
+            padding: 0 1.4em 1.4em 1.4em !important;
+            margin: 0 0 1.5em 0 !important;
+            -webkit-box-shadow:  0px 0px 0px 0px #000;
+                    box-shadow:  0px 0px 0px 0px #000;
+            text-align: left;
+        }
+
+        legend.scheduler-border {
+            font-size: 1.2em !important;
+            font-weight: bold !important;
+            text-align: left !important;
+            width:auto;
+            padding:0 10px;
+            border-bottom:none;
+        }
+
+    </style>
+
+    <!-- SPELLS -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+
+    <script src="js/controllers/main.js"></script> <!-- load controller -->
+    <script src="js/services/jsroom.js"></script> <!-- load service -->
+    <script src="js/core.js"></script> <!-- load main application -->
+
+</head>
+<!-- SET THE CONTROLLER -->
+<body ng-controller="mainController">
+    <div class="container">
+
+        <!-- HEADER AND TODO COUNT -->
+        <div class="jumbotron text-center">
+            <h1>I'm a Happy Robot!</h1>
+        </div>
+
+        <!-- init -->
+        <div id="init" class="row">
+
+            <!-- initRoom -->
+            <div class="col-sm-6">
+                <form>
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Init Room</legend>
+
+                        <div class="form-group">
+                            <label class="radio-inline">
+                              <input name="roomType" type="radio" value="1" ng-model="roomType" ng-checked="true" required>
+                              Square
+                            </label>
+                            <label class="radio-inline">
+                              <input name="roomType" type="radio" value="2" ng-model="roomType">
+                              Circle
+                            </label>
+
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="sideLength" class="col-sm-3 control-label" style="padding-left: 0px;">Side Length</label>
+                            <div class="col-sm-9">
+                              <input id="sideLength" type="text" class="form-control input-sm text-center" placeholder="..." ng-model="sideLength">
+                            </div>
+
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-sm" ng-click="initRoom()">init room</button>
+                        </div>
+
+                    </fieldset>
+                </form>
+           </div>
+
+           <!-- initRobot -->
+           <div class="col-sm-6">
+
+              <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Init Robot</legend>
+                     <div class="control-group">
+                         <label class="control-label input-label" for="startTime">Start :</label>
+                         <div class="controls bootstrap-timepicker">
+                             <input type="text" class="datetime" type="text" id="startTime" name="startTime" placeholder="{{ robotStartLocation }}" />
+                             <i class="icon-time"></i>
+                         </div>
+                     </div>
+                    <div class="control-group">
+                        <label class="control-label input-label" for="startTime">Start :</label>
+                        <div class="controls bootstrap-timepicker">
+                            <input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
+                            <i class="icon-time"></i>
+                        </div>
+                    </div>
+                </fieldset>
+
+            </div>
+
+
+
+        </div>
+
+        <!-- commands -->
+        <div id="init" class="row">
+             <!-- commands -->
+           <div class="col-sm-12">
+
+              <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Commands to Robot</legend>
+                     <div class="control-group">
+                         <label class="control-label input-label" for="startTime">Start :</label>
+                         <div class="controls bootstrap-timepicker">
+                             <input type="text" class="datetime" type="text" id="startTime" name="startTime" placeholder="{{ robotStartLocation }}" />
+                             <i class="icon-time"></i>
+                         </div>
+                     </div>
+
+                </fieldset>
+
+            </div>
+        </div>
+
+        <!-- log -->
+        <div id="init" class="row">
+             <!-- commands -->
+           <div class="col-sm-12">
+
+              <fieldset class="scheduler-border">
+                  <legend class="scheduler-border">Status</legend>
+                     <div class="control-group">
+                         <label class="control-label input-label" for="startTime">Start :</label>
+                         <div class="controls bootstrap-timepicker">
+                             <input type="text" class="datetime" type="text" id="startTime" name="startTime" placeholder="{{ robotStartLocation }}" />
+                             <i class="icon-time"></i>
+                         </div>
+                     </div>
+
+                </fieldset>
+
+            </div>
+        </div>
+
+        <div class="text-center text-muted">
+            <p>Just enjoy yourself. ☺</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -65,13 +65,21 @@ class CJsRoomCircle extends CJsRoomBase {
 
             logger.info('robot init location:', this.getRobotLocation().toString());
 
-            CResult.SUCCESS.setData(this.getRobotLocation());
+            let returnData = {
+                robotLocation: this.getRobotLocation()
+            }
+            CResult.SUCCESS.setData(returnData);
             result = CResult.SUCCESS;
 
         } else {
 
-            CResult.POSITION_NOT_IN_ROOM.setData(point.toString());
+            let returnData = {
+                point: point
+            }
+            CResult.POSITION_NOT_IN_ROOM.setData(returnData);
             result = CResult.POSITION_NOT_IN_ROOM;
+
+            logger.warn('robot can not put in:', point.toString());
 
         }
 

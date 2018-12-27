@@ -22,13 +22,14 @@ serialUtility.declarePersistable(CPoint);
 
 module.exports = function(app) {
 
-    // initRoom?type=0&len=5
+    // initRoom?type=1&len=5
+    // initRoom?type=2&r=10
     app.get('/api/initRoom', function(req, res) {
 
         let result = null;
         let jsRoom = null;
 
-        const enumRoomType = parseInt(req.query.type);
+        const enumRoomType = +req.query.type;
         if (enumRoomType) {
 
             jsRoom = CJsRoom.initRoom(enumRoomType);
@@ -37,7 +38,7 @@ module.exports = function(app) {
 
                 case EnumRoomType.SQUARE:
 
-                    const sideLength = parseInt(req.query.len);
+                    const sideLength = +req.query.len;
                     if (sideLength) {
                         jsRoom.initRoom(sideLength);
 
@@ -46,13 +47,15 @@ module.exports = function(app) {
                     } else {
                         CResult.FAILED.setMsg('room square [len] must be int.');
                         result = CResult.FAILED;
+
+                        logger.error(result);
                     }
 
                     break;
 
                 case EnumRoomType.CIRCLE:
 
-                    const radius = parseInt(req.query.r);
+                    const radius = +req.query.r;
                     if (radius) {
                         jsRoom.initRoom(radius);
 
@@ -61,6 +64,8 @@ module.exports = function(app) {
                     } else {
                         CResult.FAILED.setMsg('room circle [r] must be int.');
                         result = CResult.FAILED;
+
+                        logger.error(result);
                     }
 
                     break;
@@ -68,11 +73,15 @@ module.exports = function(app) {
                 default:
                     CResult.FAILED.setMsg('room type error.');
                     result = CResult.FAILED;
+
+                    logger.error(result);
             }
 
         } else {
             CResult.FAILED.setMsg('room type [type] must be int.');
             result = CResult.FAILED;
+
+            logger.error(result);
         }
 
         //jsRoom.initRobot(new CPoint(1, 2));
@@ -94,8 +103,8 @@ module.exports = function(app) {
         let result = null;
         let jsRoom = null;
 
-        const x = parseInt(req.query.x);
-        const y = parseInt(req.query.y);
+        const x = +req.query.x;
+        const y = +req.query.y;
 
         if (x && y) {
             jsRoom = serialUtility.deserialize(req.session.room);
@@ -106,6 +115,8 @@ module.exports = function(app) {
         } else {
             CResult.FAILED.setMsg('robot\' coordinate [x][y] must be int.');
             result = CResult.FAILED;
+
+            logger.error(result);
         }
 
         req.session.room = serialUtility.serialize(jsRoom);
@@ -130,6 +141,8 @@ module.exports = function(app) {
         } else {
             CResult.FAILED.setMsg('move robot require [cmd].');
             result = CResult.FAILED;
+
+            logger.error(result);
         }
 
         req.session.room = serialUtility.serialize(jsRoom);
@@ -141,6 +154,14 @@ module.exports = function(app) {
     app.get('*', function(req, res) {
         res.sendFile(__dirname + '/public/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
+};
+
+function is_numeric(value) {
+    if (typeof(value) === 'object') {
+        return false;
+    } else {
+        return !Number.isNaN(Number(value));
+    }
 };
 
 function getRoomFromSession(roomtype, roomString) {

@@ -59,24 +59,38 @@ class CJsRoomBase {
                     logger.info(currRobotLocation.toString(), '===>', nextRobotLocation.toString());
 
                 } else {
-                    logger.error('can not move to:', currRobotLocation.toString(), '--->', nextRobotLocation.point.toString());
 
-                    CResult.POSITION_NOT_IN_ROOM.setData(this.getRobotLocation());
+                    let returnData = {
+                        currRobotLocation: this.getRobotLocation()
+                    }
+                    CResult.POSITION_NOT_IN_ROOM.setData(returnData);
                     result = CResult.POSITION_NOT_IN_ROOM;
+
+                    logger.warn('robot can not move to:', currRobotLocation.toString(), '--->', nextRobotLocation.point.toString());
+
                     return result;
                 }
 
             } else {
-                logger.error('unknown command:', cmd);
 
-                CResult.UNKNOWN_COMMAND.setData(this.getRobotLocation()+'|'+cmd);
+                let returnData = {
+                    currRobotLocation: this.getRobotLocation(),
+                    errCmd: cmd
+                }
+                CResult.UNKNOWN_COMMAND.setData(returnData);
                 result = CResult.UNKNOWN_COMMAND;
+
+                logger.warn('unknown command:', cmd);
+
                 return result;
             }
 
         }
 
-        CResult.SUCCESS.setData(this.getRobotLocation());
+        let returnData = {
+            robotLocation: this.getRobotLocation()
+        }
+        CResult.SUCCESS.setData(returnData);
         result = CResult.SUCCESS;
         return result;
 
@@ -197,7 +211,7 @@ class CJsRoomBase {
                 break;
 
             default:
-                logger.error('command not found. waiting....', enumCmd);
+                logger.warn('command not found. waiting....', enumCmd);
         }
 
 

@@ -5,7 +5,7 @@ let EnumCommand = require('./EnumCommand.js');
 class CJsRobot {
 
     constructor() {
-        logger.debug('CJsRobot constructing....');
+        logger.debug('I am a Happy Robot!');
     }
 
     canExcute(enumCmd) {
