@@ -7,8 +7,10 @@ angular.module('jsRoomController', [])
         $scope.isNotRoomInited = true;
         $scope.isNotRobotInited = true;
 
-        $scope.robotStartLocation = null;
+        $scope.robotStartLocation = '';
         $scope.roomType = '1';
+        $scope.cmdLanguageType = '1';
+        $scope.cmdString = '';
 
         $scope.point = {};
         $scope.point.x = '0';
@@ -134,6 +136,45 @@ angular.module('jsRoomController', [])
                 alert('please input the command.');
             }
 		};
+
+        $scope.changeCmdLanguage = function(cmdLanguageType) {
+            console.log(cmdLanguageType, typeof(cmdLanguageType));
+
+            if ($scope.cmdString != undefined && $scope.cmdString != '') {
+
+                switch (cmdLanguageType) {
+
+                    case '2':
+                        $scope.cmdString = $scope.cmdString.split('L').join('V');
+                        $scope.cmdString = $scope.cmdString.split('R').join('H');
+                        $scope.cmdString = $scope.cmdString.split('F').join('G');
+                    break;
+
+                    case '1':
+                    default:
+                        $scope.cmdString = $scope.cmdString.split('V').join('L');
+                        $scope.cmdString = $scope.cmdString.split('H').join('R');
+                        $scope.cmdString = $scope.cmdString.split('G').join('F');
+
+                }
+            }
+
+        };
+
+        $scope.cmdLeft = function() {
+            $scope.cmdString += 'L';
+            $scope.changeCmdLanguage($scope.cmdLanguageType);
+        };
+
+        $scope.cmdForward = function() {
+            $scope.cmdString += 'F';
+            $scope.changeCmdLanguage($scope.cmdLanguageType);
+        };
+
+        $scope.cmdRight = function() {
+            $scope.cmdString += 'R';
+            $scope.changeCmdLanguage($scope.cmdLanguageType);
+        };
 
 
 	}]);
