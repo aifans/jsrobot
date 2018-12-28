@@ -7,7 +7,7 @@ angular.module('jsRoomController', [])
         $scope.isNotRoomInited = true;
         $scope.isNotRobotInited = true;
 
-        $scope.robotStartLocation = '{abc}'
+        $scope.robotStartLocation = null;
         $scope.roomType = '1';
 
         $scope.point = {};
@@ -22,13 +22,36 @@ angular.module('jsRoomController', [])
 
 			if ($scope.roomType != undefined && $scope.sideLength != undefined) {
 
-				jsRoom.initRoom($scope.roomType, $scope.sideLength)
+/* 				jsRoom.initRoom($scope.roomType, $scope.sideLength)
 					.success(function(data) {
 						$scope.roomData = {};
 						$scope.roomData = data;
 
                         $scope.isNotRoomInited = false;
-					});
+					}); */
+
+                jsRoom.initRoom($scope.roomType, $scope.sideLength).then(
+
+                    function(answer){
+
+                        $scope.roomData = {};
+						$scope.roomData = answer;
+
+                        if (answer.code == 0) {
+                            $scope.isNotRoomInited = false;
+                        } else {
+                            $scope.isNotRoomInited = true;
+                        }
+
+                        console.log(answer);
+                    },
+
+                    function(error){
+                        $scope.error = error;
+                    }
+                );
+
+
 			} else {
                 alert('please input the length.');
             }
@@ -41,13 +64,35 @@ angular.module('jsRoomController', [])
 
 			if ($scope.point.x != undefined && $scope.point.y != undefined) {
 
-				jsRoom.initRobot($scope.point.x, $scope.point.y)
+/* 				jsRoom.initRobot($scope.point.x, $scope.point.y)
 					.success(function(data) {
 						$scope.roomData = {};
 						$scope.roomData = data;
 
                         $scope.isNotRobotInited = false;
-					});
+					}); */
+
+                jsRoom.initRobot($scope.point.x, $scope.point.y).then(
+
+                    function(answer){
+
+                        $scope.roomData = {};
+						$scope.roomData = answer;
+
+                        if (answer.code == 0) {
+                            $scope.isNotRobotInited = false;
+                        } else {
+                            $scope.isNotRobotInited = true;
+                        }
+
+                        console.log(answer);
+                    },
+
+                    function(error){
+                        $scope.error = error;
+                    }
+                );
+
 			} else {
                 alert('please input the coordinator.');
             }
@@ -59,13 +104,32 @@ angular.module('jsRoomController', [])
 
 			if ($scope.cmdString != undefined && $scope.cmdString != '') {
 
-				jsRoom.moveRobot($scope.cmdString)
+/* 				jsRoom.moveRobot($scope.cmdString)
 					.success(function(data) {
 						$scope.roomData = {};
 						$scope.roomData = data;
 
                         console.log(data);
-					});
+					}); */
+
+                jsRoom.moveRobot($scope.cmdString).then(
+
+                    function(answer){
+
+                        if (answer.code == 0) {
+                            $scope.robotStartLocation = answer.data;
+                        } else {
+                            $scope.robotStartLocation = answer.data;
+                        }
+
+                        console.log(answer);
+                    },
+
+                    function(error){
+                        $scope.error = error;
+                    }
+                );
+
 			} else {
                 alert('please input the command.');
             }
