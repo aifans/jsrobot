@@ -99,7 +99,6 @@ class CJsRoomBase {
     isInRoom(point) {
 
         //logger.debug(point.toString(), this.grid[point.x][point.y]);
-        logger.debug();
 
         let isInRoom = (point.x>=0 && point.y>=0) && (point.x< this.length && point.y< this.width) && (this.grid[point.x][point.y] == 0);
 
