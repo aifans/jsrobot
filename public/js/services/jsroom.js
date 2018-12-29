@@ -130,7 +130,7 @@ angular.module('jsRoomService', [])
                             result.code = 0;
                             result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
                         } else {
-                            let currRobotLocation = answer.data.data.robotLocation;
+                            let currRobotLocation = answer.data.data.currRobotLocation;
 
                             result.code = 1;
                             result.msg = answer.data.msg;
