@@ -207,11 +207,21 @@
 
                         <legend class="scheduler-border">Status</legend>
 
-                        <div class="control-group">
-                            <label class="control-label input-label" for="startTime">Start :</label>
+                        <div class="control-group"  style="margin: 0px 15px">
+                            <label style="text-align:center">Current position:</label>
 
-                            <div class="controls bootstrap-timepicker">
-                                <input type="text" class="datetime" type="text" id="startTime" name="startTime" placeholder="{{ robotStartLocation }}" />
+                            <div>
+                                <input type="text" class="form-control" ng-model="robotLocation" placeholder="display robot location" />
+                            </div>
+
+                        </div>
+
+                        <div class="form-group" style="margin: 15px 15px">
+
+                            <label>Current status:</label>
+
+                            <div>
+                                <textarea cols="30" rows="6" class="form-control" ng-model="msg" placeholder="display current status" />
                             </div>
                         </div>
 

@@ -6,14 +6,12 @@ angular.module('jsRoomService', [])
 
                 let queryString = '?type='+roomType;
                 switch (roomType) {
-                    case '1':
-                        queryString += '&len='+sideLength;
-                    break;
                     case '2':
                         queryString += '&r='+sideLength;
-                    break;
+                        break;
+
+                    case '1':
                     default:
-                        console.log('roomType should not be appear:' + roomType);
                         queryString += '&len='+sideLength;
                 }
 
@@ -32,7 +30,19 @@ angular.module('jsRoomService', [])
                         };
                         if (answer.data.code == 0) {
                             result.code = 0;
+                            result.msg = answer.data.msg;
                             result.data = answer.data.data;
+
+                            switch (roomType) {
+                                case '2':
+                                    result.msg += ' type: circle, radius: ' + answer.data.data.radius;
+                                    break;
+
+                                case '1':
+                                default:
+                                    result.msg += ' type: square, size: ' + answer.data.data.length + ' * ' + answer.data.data.width;
+                            }
+
                         } else {
                             result.code = 1;
                             result.msg = answer.data.msg;
@@ -75,9 +85,19 @@ angular.module('jsRoomService', [])
                             msg  : null,
                             data : null,
                         };
+
+                        //console.log(answer.data);
+
                         if (answer.data.code == 0) {
                             result.code = 0;
-                            result.data = answer.data.data;
+                            //result.data = answer.data.data;
+
+                            let currRobotLocation = answer.data.data.robotLocation;
+
+                            result.code = 0;
+                            result.msg = answer.data.msg;
+                            result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
+
                         } else {
                             result.code = 1;
                             result.msg = answer.data.msg;
@@ -128,6 +148,7 @@ angular.module('jsRoomService', [])
                             let currRobotLocation = answer.data.data.robotLocation;
 
                             result.code = 0;
+                            result.msg = answer.data.msg;
                             result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
                         } else {
                             let currRobotLocation = answer.data.data.currRobotLocation;

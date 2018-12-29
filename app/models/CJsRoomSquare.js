@@ -24,6 +24,8 @@ class CJsRoomSquare extends CJsRoomBase {
 
     initRoom(sideLength) {
 
+        let result = null;
+
         logger.info('initing room square......');
 
         this.length = sideLength;
@@ -41,6 +43,10 @@ class CJsRoomSquare extends CJsRoomBase {
         this.grid = grid;
 
         logger.info('room square created.');
+
+        CResult.SUCCESS.setData(this);
+        result = CResult.SUCCESS;
+        return result;
 
     }
 

@@ -7,15 +7,18 @@ angular.module('jsRoomController', [])
         $scope.isNotRoomInited = true;
         $scope.isNotRobotInited = true;
 
-        $scope.robotStartLocation = '';
         $scope.roomType = '1';
+        $scope.sideLength = '';
+
+        $scope.point = {};
+        $scope.point.x = '';
+        $scope.point.y = '';
+
         $scope.cmdLanguageType = '1';
         $scope.cmdString = '';
 
-        $scope.point = {};
-        $scope.point.x = '0';
-        $scope.point.y = '0';
-
+        $scope.robotLocation = '';
+        $scope.msg = '';
 
 		$scope.initRoom = function() {
 
@@ -39,6 +42,7 @@ angular.module('jsRoomController', [])
                         $scope.roomData = {};
 						$scope.roomData = answer;
 
+                        $scope.msg = 'init room: ' + answer.msg;
                         if (answer.code == 0) {
                             $scope.isNotRoomInited = false;
                         } else {
@@ -81,8 +85,10 @@ angular.module('jsRoomController', [])
                         $scope.roomData = {};
 						$scope.roomData = answer;
 
+                        $scope.msg = answer.msg;
                         if (answer.code == 0) {
                             $scope.isNotRobotInited = false;
+                            $scope.robotLocation = answer.data;
                         } else {
                             $scope.isNotRobotInited = true;
                         }
@@ -118,11 +124,16 @@ angular.module('jsRoomController', [])
 
                     function(answer){
 
-                        if (answer.code == 0) {
-                            $scope.robotStartLocation = answer.data;
+/*                         if (answer.code == 0) {
+                            $scope.robotLocation = answer.data;
+                            $scope.msg = answer.msg;
                         } else {
-                            $scope.robotStartLocation = answer.data;
+                            $scope.robotLocation = answer.data;
+                            $scope.msg = answer.msg;
                         }
+ */
+                        $scope.robotLocation = answer.data;
+                        $scope.msg = answer.msg;
 
                         console.log(answer);
                     },

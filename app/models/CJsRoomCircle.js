@@ -28,6 +28,8 @@ class CJsRoomCircle extends CJsRoomBase {
 
     initRoom(radius) {
 
+        let result = null;
+
         logger.info('initing room circle......');
 
         this.length = radius*2+1;
@@ -52,6 +54,10 @@ class CJsRoomCircle extends CJsRoomBase {
         this.grid = grid;
 
         logger.info('room circle created.');
+
+        CResult.SUCCESS.setData(this);
+        result = CResult.SUCCESS;
+        return result;
     }
 
     initRobot(point) {

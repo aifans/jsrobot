@@ -44,10 +44,9 @@ module.exports = function(app) {
 
                     const sideLength = +req.query.len;
                     if (Number.isInteger(sideLength)) {
-                        jsRoom.initRoom(sideLength);
 
-                        CResult.SUCCESS.setData(jsRoom);
-                        result = CResult.SUCCESS;
+                        result = jsRoom.initRoom(sideLength);
+
                     } else {
                         CResult.FAILURE.setMsg('room square [len] must be int.');
                         CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
@@ -62,10 +61,9 @@ module.exports = function(app) {
 
                     const radius = +req.query.r;
                     if (Number.isInteger(radius)) {
-                        jsRoom.initRoom(radius);
 
-                        CResult.SUCCESS.setData(jsRoom);
-                        result = CResult.SUCCESS;
+                        result = jsRoom.initRoom(radius);
+
                     } else {
                         CResult.FAILURE.setMsg('room circle [r] must be int.');
                         CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
