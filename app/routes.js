@@ -27,8 +27,13 @@ module.exports = function(app) {
     // initRoom?type=2&r=10
     app.get('/api/initRoom', function(req, res) {
 
+        logger.debug(req.session);
+
         let result = null;
         let jsRoom = null;
+
+        let isRoomInited = false;
+        let isRobotInited = false;
 
         let queryString = url.parse(req.url, true).query;
         logger.info(queryString);
@@ -46,6 +51,7 @@ module.exports = function(app) {
                     if (Number.isInteger(sideLength)) {
 
                         result = jsRoom.initRoom(sideLength);
+                        isRoomInited = true;
 
                     } else {
                         CResult.FAILURE.setMsg('room square [len] must be int.');
@@ -97,6 +103,12 @@ module.exports = function(app) {
         //jsRoom.moveRobot('RRFLFFLRF');
 
         req.session.roomtype = enumRoomType;
+
+        logger.debug('isRoomInited =', isRoomInited, ', isRobotInited =', isRobotInited);
+        req.session.isRoomInited = isRoomInited;
+        req.session.isRobotInited = isRobotInited;
+        logger.debug('req.session.isRoomInited =', req.session.isRoomInited, ', req.session.isRobotInited =', req.session.isRobotInited);
+
         req.session.room = serialUtility.serialize(jsRoom);
 
         res.json(result);
@@ -106,10 +118,24 @@ module.exports = function(app) {
     // initRobot?x=1&y=2
     app.get('/api/initRobot', function(req, res) {
 
+        logger.debug(req.session);
+
         let queryString = url.parse(req.url, true).query;
         logger.info(queryString);
 
         let result = null;
+
+        let isRoomInited = req.session.isRoomInited;
+        let isRobotInited = req.session.isRobotInited;
+
+        if (!isRoomInited) {
+            CResult.FAILURE.setMsg('room not inited.');
+            result = CResult.FAILURE;
+            res.json(result);
+
+            return;
+        }
+
         let jsRoom = serialUtility.deserialize(req.session.room);
 
         const x = +req.query.x;
@@ -120,6 +146,8 @@ module.exports = function(app) {
             let point = new CPoint(x, y);
             result = jsRoom.initRobot(point);
 
+            isRobotInited = true;
+
         } else {
             CResult.FAILURE.setMsg('robot coordinate [x][y] must be int.');
             CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
@@ -128,6 +156,7 @@ module.exports = function(app) {
             logger.error(result);
         }
 
+        req.session.isRobotInited = isRobotInited;
         req.session.room = serialUtility.serialize(jsRoom);
 
         res.json(result);
@@ -136,10 +165,27 @@ module.exports = function(app) {
     // moveRobot?cmd=HGHGGHGHG
     app.get('/api/moveRobot', function(req, res) {
 
+        logger.debug(req.session);
+
         let queryString = url.parse(req.url, true).query;
         logger.info(queryString);
 
         let result = null;
+
+        let isRobotInited = req.session.isRobotInited;
+
+        logger.debug('isRobotInited =', isRobotInited, ', type =', typeof(isRobotInited));
+
+        if (!isRobotInited) {
+            CResult.FAILURE.setMsg('robot not inited.');
+            result = CResult.FAILURE;
+            res.json(result);
+
+            return;
+        }
+
+        logger.debug('robot inited. see: isRobotInited =', isRobotInited);
+
         let jsRoom = serialUtility.deserialize(req.session.room);
 
         const cmd = req.query.cmd;
