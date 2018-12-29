@@ -69,6 +69,7 @@ module.exports = function(app) {
                     if (Number.isInteger(radius)) {
 
                         result = jsRoom.initRoom(radius);
+                        isRoomInited = true;
 
                     } else {
                         CResult.FAILURE.setMsg('room circle [r] must be int.');
