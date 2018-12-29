@@ -25,7 +25,8 @@ angular.module('jsRoomController', [])
             console.log($scope.roomType, typeof($scope.roomType));
             console.log($scope.sideLength, typeof($scope.sideLength));
 
-			if ($scope.roomType != undefined && $scope.sideLength != undefined && $scope.sideLength != '') {
+            let sideLength = $scope.sideLength.replace(/(^\s*)|(\s*$)/g, '');
+			if ($scope.roomType != undefined && sideLength != undefined && sideLength != '') {
 
 /* 				jsRoom.initRoom($scope.roomType, $scope.sideLength)
 					.success(function(data) {
@@ -35,7 +36,7 @@ angular.module('jsRoomController', [])
                         $scope.isNotRoomInited = false;
 					}); */
 
-                jsRoom.initRoom($scope.roomType, $scope.sideLength).then(
+                jsRoom.initRoom($scope.roomType, sideLength).then(
 
                     function(answer){
 
@@ -68,7 +69,10 @@ angular.module('jsRoomController', [])
             console.log($scope.point.x, typeof($scope.point.x));
             console.log($scope.point.y, typeof($scope.point.y));
 
-			if ($scope.point.x != undefined && $scope.point.y != undefined) {
+            let x = $scope.point.x.replace(/(^\s*)|(\s*$)/g, '');
+            let y = $scope.point.y.replace(/(^\s*)|(\s*$)/g, '');
+
+			if (x != undefined && y != undefined) {
 
 /* 				jsRoom.initRobot($scope.point.x, $scope.point.y)
 					.success(function(data) {
@@ -78,14 +82,14 @@ angular.module('jsRoomController', [])
                         $scope.isNotRobotInited = false;
 					}); */
 
-                if ($scope.point.x == '') {
-                    $scope.point.x = '0';
+                if (x == '') {
+                    x = '0';
                 }
-                if ($scope.point.y == '') {
-                    $scope.point.y = '0';
+                if (y == '') {
+                    y = '0';
                 }
 
-                jsRoom.initRobot($scope.point.x, $scope.point.y).then(
+                jsRoom.initRobot(x, y).then(
 
                     function(answer){
 
@@ -117,7 +121,8 @@ angular.module('jsRoomController', [])
 
             console.log($scope.cmdString);
 
-			if ($scope.cmdString != undefined && $scope.cmdString != '') {
+            let cmdString = $scope.cmdString.replace(/(^\s*)|(\s*$)/g, '');
+			if (cmdString != undefined && cmdString != '') {
 
 /* 				jsRoom.moveRobot($scope.cmdString)
 					.success(function(data) {
@@ -127,7 +132,7 @@ angular.module('jsRoomController', [])
                         console.log(data);
 					}); */
 
-                jsRoom.moveRobot($scope.cmdString).then(
+                jsRoom.moveRobot(cmdString).then(
 
                     function(answer){
 
