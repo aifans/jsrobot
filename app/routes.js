@@ -12,6 +12,7 @@ let CJsRoomCircle = require('./models/CJsRoomCircle.js');
 let CJsRobot = require('./models/CJsRobot.js');
 let CRobotLocation = require('./models/CRobotLocation.js');
 let CPoint = require('./models/CPoint.js');
+let CRobotAction = require('./models/CRobotAction.js');
 
 let url = require('url');
 
@@ -20,6 +21,7 @@ serialUtility.declarePersistable(CJsRoomCircle);
 serialUtility.declarePersistable(CJsRobot);
 serialUtility.declarePersistable(CRobotLocation);
 serialUtility.declarePersistable(CPoint);
+serialUtility.declarePersistable(CRobotAction);
 
 module.exports = function(app) {
 

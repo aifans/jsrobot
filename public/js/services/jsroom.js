@@ -141,6 +141,7 @@ angular.module('jsRoomService', [])
                     function(answer){
                         //在这里可以对返回的数据集做一定的处理,再交由controller进行处理
                         answer.status = true;
+                        console.log(answer.data);
 
                         let result = {
                             code : 0,

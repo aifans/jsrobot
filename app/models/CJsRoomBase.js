@@ -8,6 +8,7 @@ let EnumCommand = require('./EnumCommand.js');
 let EnumDirection = require('./EnumDirection.js');
 let EnumRoomType = require('./EnumRoomType.js');
 let CPoint = require('./CPoint.js');
+let CRobotAction = require('./CRobotAction.js');
 
 class CJsRoomBase {
 
@@ -18,6 +19,8 @@ class CJsRoomBase {
 
         this.robot = null;
         this.robotLocation = null;
+
+        this.robotActionHistory = new Array();
 
         logger.debug('CJsRoom constructing....');
     }
@@ -42,28 +45,51 @@ class CJsRoomBase {
         let cmdString = commandString.toUpperCase();
         let cmdLen = cmdString.length;
 
+        this.robotActionHistory = [];
         for (let i=0; i<cmdLen; i++) {
 
+            let cRobotAction = new CRobotAction();
             let cmd = cmdString[i];
+            let currRobotLocation = this.robotLocation;
+
+            cRobotAction.cmd = cmd;
+            cRobotAction.startLocation = this.robotLocation;
 
             if (this.cmdIsValid(cmd) && this.robot.canExcute(cmd)) {
 
                 logger.info('sending to robot:', cmd);
 
-                let currRobotLocation = this.robotLocation;
                 let nextRobotLocation = this.getNextRobotLocation(currRobotLocation, cmd);
+
+                cRobotAction.endLocation = nextRobotLocation;
+
                 if (this.isInRoom(nextRobotLocation.point)) {
+
                     this.robot.move(cmd);
                     this.robotLocation = nextRobotLocation;
 
                     logger.info(currRobotLocation.toString(), '==('+cmd+')=>', nextRobotLocation.toString());
 
+                    cRobotAction.result = CResult.SUCCESS.getMsg();
+                    this.robotActionHistory.push(cRobotAction);
+
+                    let returnData = {
+                        robotLocation: this.getRobotLocation(),
+                        robotActionHistory: this.robotActionHistory,
+                    }
+                    CResult.SUCCESS.setData(returnData);
+                    result = CResult.SUCCESS;
+
                 } else {
+
+                    cRobotAction.result = CResult.ROBOT_CANT_MOVE.getMsg();
+                    this.robotActionHistory.push(cRobotAction);
 
                     let returnData = {
                         currRobotLocation: this.getRobotLocation(),
                         currCommand: cmd,
                         nextPoint: nextRobotLocation.point,
+                        robotActionHistory: this.robotActionHistory,
                     }
                     CResult.ROBOT_CANT_MOVE.setData(returnData);
                     result = CResult.ROBOT_CANT_MOVE;
@@ -75,9 +101,13 @@ class CJsRoomBase {
 
             } else {
 
+                cRobotAction.result = CResult.UNKNOWN_COMMAND.getMsg();
+                this.robotActionHistory.push(cRobotAction);
+
                 let returnData = {
                     currRobotLocation: this.getRobotLocation(),
-                    errCmd: cmd
+                    errCmd: cmd,
+                    robotActionHistory: this.robotActionHistory,
                 }
                 CResult.UNKNOWN_COMMAND.setData(returnData);
                 result = CResult.UNKNOWN_COMMAND;
@@ -89,11 +119,6 @@ class CJsRoomBase {
 
         }
 
-        let returnData = {
-            robotLocation: this.getRobotLocation()
-        }
-        CResult.SUCCESS.setData(returnData);
-        result = CResult.SUCCESS;
         return result;
 
     }
