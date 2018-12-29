@@ -43,5 +43,6 @@ module.exports = {
 
     //
     POSITION_NOT_IN_ROOM    :   new CResult(101, 'point not in the room.', {}),
-    UNKNOWN_COMMAND         :   new CResult(102, 'unknown command.', {})
+    UNKNOWN_COMMAND         :   new CResult(102, 'unknown command.', {}),
+    ROBOT_CANT_MOVE         :   new CResult(103, 'robot can not move to the position.', {}),
 }
