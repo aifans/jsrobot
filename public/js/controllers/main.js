@@ -18,7 +18,7 @@ angular.module('jsRoomController', [])
         $scope.cmdString = '';
 
         $scope.robotLocation = '';
-        $scope.msg = '';
+        $scope.logText = '';
 
 		$scope.initRoom = function() {
 
@@ -43,7 +43,8 @@ angular.module('jsRoomController', [])
                         $scope.roomData = {};
 						$scope.roomData = answer;
 
-                        $scope.msg = 'init room: ' + answer.msg;
+                        $scope.displayLog('init room: ' + answer.msg);
+
                         if (answer.code == 0) {
                             $scope.isNotRoomInited = false;
                         } else {
@@ -98,7 +99,8 @@ angular.module('jsRoomController', [])
                         $scope.roomData = {};
 						$scope.roomData = answer;
 
-                        $scope.msg = answer.msg;
+                        $scope.displayLog('init robot: ' + answer.msg);
+
                         if (answer.code == 0) {
                             $scope.isNotRobotInited = false;
                             $scope.robotLocation = answer.data;
@@ -140,14 +142,17 @@ angular.module('jsRoomController', [])
 
 /*                         if (answer.code == 0) {
                             $scope.robotLocation = answer.data;
-                            $scope.msg = answer.msg;
+                            $scope.logText = answer.msg;
                         } else {
                             $scope.robotLocation = answer.data;
-                            $scope.msg = answer.msg;
+                            $scope.logText = answer.msg;
                         }
  */
                         $scope.robotLocation = answer.data;
-                        $scope.msg = answer.msg;
+                        //$scope.displayLog(answer.msg);
+                        angular.forEach(answer.msg, function(msg) {
+                            $scope.displayLog(msg);
+                        });
 
                         //console.log(answer);
                     },
@@ -199,6 +204,13 @@ angular.module('jsRoomController', [])
         $scope.cmdRight = function() {
             $scope.cmdString += 'R';
             $scope.changeCmdLanguage($scope.cmdLanguageType);
+        };
+
+        $scope.displayLog = function(logText) {
+            $scope.logText += logText + '\r\n';
+
+            let textarea = document.getElementById('logText');
+            textarea.scrollTop = textarea.scrollHeight;
         };
 
 

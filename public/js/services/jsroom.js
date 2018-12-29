@@ -151,8 +151,8 @@ angular.module('jsRoomService', [])
 
                         let currPoint = null;
                         let currFacing = null;
-                        let currCmd = null;
-                        let errCmd = null;
+                        let currCmd = '';
+                        let errCmd = '';
 
                         switch (answer.data.code) {
                             case 102:
@@ -161,9 +161,17 @@ angular.module('jsRoomService', [])
 
                                 currPoint = answer.data.data.currRobotLocation.point;
                                 currFacing = answer.data.data.currRobotLocation.direction;
-                                errCmd = answer.data.data.errCmd;
+                                //errCmd = answer.data.data.errCmd;
 
-                                result.msg = answer.data.msg + ' ' + '[' + errCmd + ']';
+                                //result.msg = answer.data.msg + ' ' + '[' + errCmd + ']';
+
+                                result.msg = new Array();
+                                angular.forEach(answer.data.data.robotActionHistory, function(robotAction) {
+                                    let startPoint = robotAction.startLocation.point;
+                                    let startFacing = robotAction.startLocation.direction;
+
+                                    result.msg.push('Command: ' + robotAction.cmd + ', Move: (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (), Result: ' + robotAction.result);
+                                });
 
                                 result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
 
@@ -175,10 +183,20 @@ angular.module('jsRoomService', [])
 
                                 currPoint = answer.data.data.currRobotLocation.point;
                                 currFacing = answer.data.data.currRobotLocation.direction;
-                                currCmd = answer.data.data.currCommand;
-                                nextPoint = answer.data.data.nextPoint;
+                                //currCmd = answer.data.data.currCommand;
+                                //nextPoint = answer.data.data.nextPoint;
 
-                                result.msg = answer.data.msg + ' can not from (' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')' + ' to ' + '(' + nextPoint.x + ' ' + nextPoint.y + ') by command [' + currCmd + ']';
+                                //result.msg = answer.data.msg + ' can not from (' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')' + ' to ' + '(' + nextPoint.x + ' ' + nextPoint.y + ') by command [' + currCmd + ']';
+
+                                result.msg = new Array();
+                                angular.forEach(answer.data.data.robotActionHistory, function(robotAction) {
+                                    let startPoint = robotAction.startLocation.point;
+                                    let startFacing = robotAction.startLocation.direction;
+                                    let endPoint = robotAction.endLocation.point;
+                                    let endFacing = robotAction.endLocation.direction;
+
+                                    result.msg.push('Command: ' + robotAction.cmd + ', Move: (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (' + endPoint.x + ', ' + endPoint.y + ', ' + endFacing + '), Result: ' + robotAction.result);
+                                });
 
                                 result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
 
@@ -191,7 +209,18 @@ angular.module('jsRoomService', [])
                                 currPoint = answer.data.data.robotLocation.point;
                                 currFacing = answer.data.data.robotLocation.direction;
 
-                                result.msg = answer.data.msg;
+                                //result.msg = answer.data.msg;
+                                //result.msg = answer.data.data.robotActionHistory;
+
+                                result.msg = new Array();
+                                angular.forEach(answer.data.data.robotActionHistory, function(robotAction) {
+                                    let startPoint = robotAction.startLocation.point;
+                                    let startFacing = robotAction.startLocation.direction;
+                                    let endPoint = robotAction.endLocation.point;
+                                    let endFacing = robotAction.endLocation.direction;
+
+                                    result.msg.push('Command: ' + robotAction.cmd + ', Move: (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (' + endPoint.x + ', ' + endPoint.y + ', ' + endFacing + '), Result: ' + robotAction.result);
+                                });
 
                                 result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
 
