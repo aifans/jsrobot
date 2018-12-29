@@ -150,9 +150,11 @@ angular.module('jsRoomController', [])
  */
                         $scope.robotLocation = answer.data;
                         //$scope.displayLog(answer.msg);
+
                         angular.forEach(answer.msg, function(msg) {
                             $scope.displayLog(msg);
                         });
+
 
                         //console.log(answer);
                     },

@@ -1,0 +1,270 @@
+<!doctype html>
+
+<!-- ASSIGN OUR ANGULAR MODULE -->
+<html ng-app="JsRoom">
+    <head>
+        <!-- META -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
+
+        <title>Robot Room</title>
+
+        <!-- SCROLLS -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+        <style>
+            html    { overflow-y:scroll; height: 90%; }
+            body    { padding-top:50px; height: 40%; }
+            .fuller { height: 100%; padding: 0px 0 0; box-sizing: border-box ; }
+
+            fieldset.scheduler-border {
+                border: 1px groove #ddd !important;
+                padding: 0 1.4em 1.4em 1.4em !important;
+                margin: 0 0 1.0em 0 !important;
+                -webkit-box-shadow:  0px 0px 0px 0px #000;
+                box-shadow:  0px 0px 0px 0px #000;
+                text-align: left;
+            }
+
+            legend.scheduler-border {
+                font-size: 1.2em !important;
+                font-weight: bold !important;
+                text-align: left !important;
+                width:auto;
+                padding:0 10px;
+                border-bottom:none;
+                margin-bottom: 10px;
+            }
+
+            .table th, .table tr td {
+                text-align: center;
+                vertical-align: middle!important;
+            }
+
+            hr {
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+
+
+        </style>
+
+        <!-- SPELLS -->
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.min.js"></script><!-- load angular -->
+
+        <script src="js/controllers/main.js"></script> <!-- load controller -->
+        <script src="js/services/jsroom.js"></script> <!-- load service -->
+        <script src="js/core.js"></script> <!-- load main application -->
+
+    </head>
+    <!-- SET THE CONTROLLER -->
+    <body ng-controller="mainController">
+        <div class="container" style="height: 100%;">
+
+            <!-- HEADER AND TODO COUNT -->
+            <div class="jumbotron text-center">
+                <h1>I'm a Happy Robot!</h1>
+            </div>
+
+            <div id="room" class="row">
+
+                <!-- initRoom -->
+                <div class="col-sm-6">
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Init Room</legend>
+
+                        <form class="form-horizontal">
+
+                            <div class="form-group" style="margin: 0px 15px">
+                                <label>Room type:</label>
+
+                                <div>
+                                    <label class="radio-inline">
+                                        <input name="roomType" type="radio" value="1" ng-model="roomType" ng-checked="true" required>
+                                        Square
+                                    </label>
+
+                                    <label class="radio-inline">
+                                        <input name="roomType" type="radio" value="2" ng-model="roomType">
+                                        Circle
+                                    </label>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group" style="margin: 15px 15px">
+                                <label>Length:</label>
+
+                                <div>
+                                    <input id="sideLength" type="text" class="form-control" ng-model="sideLength" placeholder="square side or circle radius.">
+                                </div>
+
+
+
+                            </div>
+
+                            <hr>
+                            <button type="submit" class="btn btn-success btn-block" ng-click="initRoom()">
+                                <span class="glyphicon glyphicon-home"></span> init room
+                            </button>
+
+                        </form>
+                    </fieldset>
+                </div>
+
+                <!-- initRobot -->
+                <div class="col-sm-6">
+
+                    <fieldset class="scheduler-border">
+
+                        <legend class="scheduler-border">Init Robot</legend>
+
+                        <form class="form-horizontal">
+
+                            <div class="form-group" style="margin: 3px 15px">
+                                <label>Robot start position(default facing North):</label>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">X:</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="point.x" placeholder="coordinate.x, must be integer.">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+
+                                    <label class="col-sm-2 control-label">Y:</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="point.y" placeholder="coordinate.y, must be integer.">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+                            <button class="btn btn-success btn-block" ng-disabled="isNotRoomInited" ng-click="initRobot()">
+                                <span class="glyphicon glyphicon-user"></span>  init robot
+                            </button>
+
+                        </form>
+                    </fieldset>
+
+                </div>
+
+
+            </div>
+
+            <div id="test" class="row fuller" style="height: aotu">
+                <div class="col-sm-6" >
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border">Commands sending to Robot</legend>
+
+                            <div class="form-group" style="margin: 3px 15px">
+                                <label>Commands:</label>
+
+                                <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
+
+                            </div>
+
+                            <hr>
+
+                            <button class="btn btn-success btn-block" ng-disabled="isNotRobotInited" ng-click="moveRobot()">
+                                <span class="glyphicon glyphicon-sort"></span> send commands to robot...
+                            </button>
+
+                            <hr>
+
+                            <div>
+                                <table class="table table-bordered" style="margin-bottom: 10px;">
+                                    <tr class="danger">
+                                        <th>Command</th>
+                                        <th>Turn Left</th>
+                                        <th>Move Forward</th>
+                                        <th>Turn Right</th>
+                                        <th>Remark</th>
+                                    </tr>
+
+                                    <tr class="active">
+                                        <td>Command Button</td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" ng-click="cmdLeft()">
+                                                <span class="glyphicon glyphicon-arrow-left"></span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" ng-click="cmdForward()">
+                                                <span class="glyphicon glyphicon-arrow-up"></span>
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-primary btn-sm" ng-click="cmdRight()">
+                                                <span class="glyphicon glyphicon-arrow-right"></span>
+                                            </button>
+                                        </td>
+                                        <td class="success" style="text-align: left;"><span style="color:#F00">Click</span> the button which is in the table you can send the command to the robot.</td>
+                                    </tr>
+
+                                    <tr class="active">
+                                        <td>
+                                            <label class="radio-inline">
+                                                <input name="cmdLanguageType" type="radio" value="1" ng-click="changeCmdLanguage('1')" ng-model="cmdLanguageType" ng-checked="true" required>
+                                                English
+                                            </label>
+                                        </td>
+                                        <td>L</td>
+                                        <td>F</td>
+                                        <td>R</td>
+                                        <td rowspan="2" style="text-align: left;">You can also input the command letters which is in the table.</td>
+                                    </tr>
+
+                                    <tr class="active">
+                                        <td>
+                                            <label class="radio-inline">
+                                                <input name="cmdLanguageType" type="radio" value="2" ng-click="changeCmdLanguage('2')" ng-model="cmdLanguageType">
+                                                Swedish
+                                            </label>
+                                        </td>
+                                        <td>V</td>
+                                        <td>G</td>
+                                        <td>H</td>
+
+                                    </tr>
+
+                                </table>
+                            </div>
+
+                    </fieldset>
+                </div>
+
+                <!-- log -->
+                <div class="col-sm-6">
+
+                    <fieldset class="scheduler-border fuller">
+
+                        <legend class="scheduler-border">Status</legend>
+
+
+
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Current position:</label>
+                                <div class="col-sm-10">
+                                    <p class="form-control-static" >{{ robotLocation }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:3px">
+                                <label class="col-sm-2 control-label">Log:</label>
+                                <div class="col-sm-10">
+                                    <textarea id="logText" cols="30" rows="14" class="form-control" style="resize:none" ng-model="logText" placeholder="display log" />
+                                </div>
+                            </div>
+                        </form>
+
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
