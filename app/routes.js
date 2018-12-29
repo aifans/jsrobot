@@ -49,9 +49,9 @@ module.exports = function(app) {
                         CResult.SUCCESS.setData(jsRoom);
                         result = CResult.SUCCESS;
                     } else {
-                        CResult.FAILED.setMsg('room square [len] must be int.');
-                        CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
-                        result = CResult.FAILED;
+                        CResult.FAILURE.setMsg('room square [len] must be int.');
+                        CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
+                        result = CResult.FAILURE;
 
                         logger.error(result);
                     }
@@ -67,9 +67,9 @@ module.exports = function(app) {
                         CResult.SUCCESS.setData(jsRoom);
                         result = CResult.SUCCESS;
                     } else {
-                        CResult.FAILED.setMsg('room circle [r] must be int.');
-                        CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
-                        result = CResult.FAILED;
+                        CResult.FAILURE.setMsg('room circle [r] must be int.');
+                        CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
+                        result = CResult.FAILURE;
 
                         logger.error(result);
                     }
@@ -77,17 +77,17 @@ module.exports = function(app) {
                     break;
 
                 default:
-                    CResult.FAILED.setMsg('room type error.');
-                    CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
-                    result = CResult.FAILED;
+                    CResult.FAILURE.setMsg('room type error.');
+                    CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
+                    result = CResult.FAILURE;
 
                     logger.error(result);
             }
 
         } else {
-            CResult.FAILED.setMsg('room type [type] must be int.');
-            CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
-            result = CResult.FAILED;
+            CResult.FAILURE.setMsg('room type [type] must be int.');
+            CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
+            result = CResult.FAILURE;
 
             logger.error(result);
         }
@@ -123,9 +123,9 @@ module.exports = function(app) {
             result = jsRoom.initRobot(point);
 
         } else {
-            CResult.FAILED.setMsg('robot coordinate [x][y] must be int.');
-            CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
-            result = CResult.FAILED;
+            CResult.FAILURE.setMsg('robot coordinate [x][y] must be int.');
+            CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
+            result = CResult.FAILURE;
 
             logger.error(result);
         }
@@ -151,9 +151,9 @@ module.exports = function(app) {
             result = jsRoom.moveRobot(cmd);
 
         } else {
-            CResult.FAILED.setMsg('move robot require [cmd].');
-            CResult.FAILED.setData('query string = ' + JSON.stringify(queryString));
-            result = CResult.FAILED;
+            CResult.FAILURE.setMsg('move robot require [cmd].');
+            CResult.FAILURE.setData('query string = ' + JSON.stringify(queryString));
+            result = CResult.FAILURE;
 
             logger.error(result);
         }

@@ -39,5 +39,5 @@ class CResult {
 module.exports = {
     // common
     SUCCESS                 :   new CResult(0, 'Success.', {}),
-    FAILED                  :   new CResult(1, 'Failed.', {}),
+    FAILURE                 :   new CResult(1, 'Failure.', {}),
 }
