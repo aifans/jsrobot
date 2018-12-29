@@ -20,7 +20,7 @@
             fieldset.scheduler-border {
                 border: 1px groove #ddd !important;
                 padding: 0 1.4em 1.4em 1.4em !important;
-                margin: 0 0 1.5em 0 !important;
+                margin: 0 0 1.0em 0 !important;
                 -webkit-box-shadow:  0px 0px 0px 0px #000;
                 box-shadow:  0px 0px 0px 0px #000;
                 text-align: left;
@@ -33,7 +33,7 @@
                 width:auto;
                 padding:0 10px;
                 border-bottom:none;
-                margin-bottom: 10;
+                margin-bottom: 10px;
             }
 
         </style>
@@ -62,28 +62,29 @@
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border">Init Room</legend>
 
-                        <h5>Room type:</h5>
-
                         <form class="form-horizontal">
 
-                            <div class="form-group" style="margin: 16px 15px">
-                                <label class="radio-inline">
-                                    <input name="roomType" type="radio" value="1" ng-model="roomType" ng-checked="true" required>
-                                    Square
-                                </label>
+                            <div class="form-group" style="margin: 0px 15px">
+                                <label>Room type:</label>
 
-                                <label class="radio-inline">
-                                    <input name="roomType" type="radio" value="2" ng-model="roomType">
-                                    Circle
-                                </label>
+                                <div>
+                                    <label class="radio-inline">
+                                        <input name="roomType" type="radio" value="1" ng-model="roomType" ng-checked="true" required>
+                                        Square
+                                    </label>
+
+                                    <label class="radio-inline">
+                                        <input name="roomType" type="radio" value="2" ng-model="roomType">
+                                        Circle
+                                    </label>
+                                </div>
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 15px 15px">
+                                <label>Length:</label>
 
-                                <label for="sideLength" class="col-sm-2 control-label">Length:</label>
-
-                                <div class="col-sm-10">
+                                <div>
                                     <input id="sideLength" type="text" class="form-control" ng-model="sideLength" placeholder="square side or circle radius.">
                                 </div>
 
@@ -92,7 +93,7 @@
                             </div>
 
                             <hr>
-                            <button type="submit" class="btn btn-success" ng-click="initRoom()">
+                            <button type="submit" class="btn btn-success btn-block" ng-click="initRoom()">
                                 <span class="glyphicon glyphicon-home"></span> init room
                             </button>
 
@@ -107,27 +108,31 @@
 
                         <legend class="scheduler-border">Init Robot</legend>
 
-                        <h5>Robot start position(default facing to North):</h5>
-
                         <form class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">X:</label>
 
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" ng-model="point.x" placeholder="coordinate.x, must be integer.">
+                            <div class="form-group" style="margin: 3px 15px">
+                                <label>Robot start position(default facing North):</label>
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">X:</label>
+
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="point.x" placeholder="coordinate.x, must be integer.">
+                                    </div>
+
                                 </div>
-                            </div>
+                                <div class="form-group">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Y:</label>
+                                    <label class="col-sm-2 control-label">Y:</label>
 
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control" ng-model="point.y" placeholder="coordinate.y, must be integer.">
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" ng-model="point.y" placeholder="coordinate.y, must be integer.">
+                                    </div>
                                 </div>
                             </div>
 
                             <hr>
-                            <button class="btn btn-success" ng-disabled="isNotRoomInited" ng-click="initRobot()">
+                            <button class="btn btn-success btn-block" ng-disabled="isNotRoomInited" ng-click="initRobot()">
                                 <span class="glyphicon glyphicon-user"></span>  init robot
                             </button>
 
@@ -143,43 +148,46 @@
 
                         <legend class="scheduler-border">Commands sending to Robot</legend>
 
-                        <h5>Command language type:</h5>
-
                         <form class="form-horizontal">
 
-                            <div class="form-group" style="margin: 16px 15px">
-                                <label class="radio-inline">
-                                    <input name="cmdLanguageType" type="radio" value="1" ng-click="changeCmdLanguage('1')" ng-model="cmdLanguageType" ng-checked="true" required>
-                                    English
-                                </label>
+                            <div class="form-group" style="margin: 0px 15px">
+                                <label>Command language type:</label>
 
-                                <label class="radio-inline">
-                                    <input name="cmdLanguageType" type="radio" value="2" ng-click="changeCmdLanguage('2')" ng-model="cmdLanguageType">
-                                    Swedish
-                                </label>
+                                <div>
+                                    <label class="radio-inline">
+                                        <input name="cmdLanguageType" type="radio" value="1" ng-click="changeCmdLanguage('1')" ng-model="cmdLanguageType" ng-checked="true" required>
+                                        English
+                                    </label>
+
+                                    <label class="radio-inline">
+                                        <input name="cmdLanguageType" type="radio" value="2" ng-click="changeCmdLanguage('2')" ng-model="cmdLanguageType">
+                                        Swedish
+                                    </label>
+                                </div>
 
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group" style="margin: 15px 15px">
+                                <label>Commands:</label>
 
-                                <button class="btn btn-primary" ng-click="cmdLeft()">
+                                <button class="btn btn-primary btn-xs" ng-click="cmdLeft()">
                                     <span class="glyphicon glyphicon-arrow-left"></span>
                                 </button>
-                                <button class="btn btn-primary" ng-click="cmdForward()">
+                                <button class="btn btn-primary btn-xs" ng-click="cmdForward()">
                                     <span class="glyphicon glyphicon-arrow-up"></span>
                                 </button>
-                                <button class="btn btn-primary" ng-click="cmdRight()">
+                                <button class="btn btn-primary btn-xs" ng-click="cmdRight()">
                                     <span class="glyphicon glyphicon-arrow-right"></span>
                                 </button>
 
-                                <div class="col-sm-7">
+                                <div>
                                     <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
                                 </div>
                             </div>
 
 
                             <hr>
-                            <button class="btn btn-success" ng-disabled="isNotRobotInited" ng-click="moveRobot()">
+                            <button class="btn btn-success btn-block" ng-disabled="isNotRobotInited" ng-click="moveRobot()">
                                 <span class="glyphicon glyphicon-sort"></span> send commands to robot...
                             </button>
 
