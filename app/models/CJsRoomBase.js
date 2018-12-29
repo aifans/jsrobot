@@ -56,17 +56,18 @@ class CJsRoomBase {
                     this.robot.move(cmd);
                     this.robotLocation = nextRobotLocation;
 
-                    logger.info(currRobotLocation.toString(), '===>', nextRobotLocation.toString());
+                    logger.info(currRobotLocation.toString(), '==('+cmd+')=>', nextRobotLocation.toString());
 
                 } else {
 
                     let returnData = {
-                        currRobotLocation: this.getRobotLocation()
+                        currRobotLocation: this.getRobotLocation(),
+                        currCommand: cmd,
                     }
-                    CResult.POSITION_NOT_IN_ROOM.setData(returnData);
-                    result = CResult.POSITION_NOT_IN_ROOM;
+                    CResult.ROBOT_CANT_MOVE.setData(returnData);
+                    result = CResult.ROBOT_CANT_MOVE;
 
-                    logger.warn('robot can not move to:', currRobotLocation.toString(), '--->', nextRobotLocation.point.toString());
+                    logger.warn('robot can not move to:', currRobotLocation.toString(), '--('+cmd+')->', nextRobotLocation.point.toString());
 
                     return result;
                 }
