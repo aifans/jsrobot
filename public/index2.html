@@ -163,7 +163,27 @@
                             <div class="form-group" style="margin: 3px 15px">
                                 <label>Commands:</label>
 
-                                <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" style="margin-left:5px" ng-click="cmdLeft()">
+                                            <span class="glyphicon glyphicon-arrow-left"></span>
+                                        </button>
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" style="margin-left:5px" ng-click="cmdForward()">
+                                            <span class="glyphicon glyphicon-arrow-up"></span>
+                                        </button>
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" style="margin-left:5px" ng-click="cmdRight()">
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
+                                        </button>
+                                    </span>
+                                </div>
 
                             </div>
 

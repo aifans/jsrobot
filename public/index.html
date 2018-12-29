@@ -154,13 +154,14 @@
                                 <label>Command language type:</label>
 
                                 <div>
-                                    <label class="radio-inline">
-                                        <input name="cmdLanguageType" type="radio" value="1" ng-click="changeCmdLanguage('1')" ng-model="cmdLanguageType" ng-checked="true" required>
+                                    <label class="radio-inline" data-toggle="tooltip" title="L: turn left; F: move forward; R: turn right">
+                                        <input name="cmdLanguageType" type="radio" value="1" ng-click="changeCmdLanguage('1')" ng-model="cmdLanguageType" ng-checked="true" required data-toggle="tooltip" title="L: turn left; F: move forward; R: turn right">
                                         English
                                     </label>
 
-                                    <label class="radio-inline">
-                                        <input name="cmdLanguageType" type="radio" value="2" ng-click="changeCmdLanguage('2')" ng-model="cmdLanguageType">
+                                    <label class="radio-inline" data-toggle="tooltip"  title="V: turn left; G: move forward; H: turn right">
+                                        <!--<input name="cmdLanguageType" type="radio" value="2" ng-click="changeCmdLanguage('2')" ng-model="cmdLanguageType" data-toggle="tooltip"  title="V: sväng vänster; G: gå framåt; H: sväng höger">-->
+                                        <input name="cmdLanguageType" type="radio" value="2" ng-click="changeCmdLanguage('2')" ng-model="cmdLanguageType" data-toggle="tooltip"  title="V: turn left; G: move forward; H: turn right">
                                         Swedish
                                     </label>
                                 </div>
@@ -170,20 +171,29 @@
                             <div class="form-group" style="margin: 15px 15px">
                                 <label>Commands:</label>
 
-                                <button class="btn btn-primary btn-xs" style="float:right; margin-left:5px" ng-click="cmdRight()">
-                                    <span class="glyphicon glyphicon-arrow-right"></span>
-                                </button>
-                                <button class="btn btn-primary btn-xs" style="float:right; margin-left:5px" ng-click="cmdForward()">
-                                    <span class="glyphicon glyphicon-arrow-up"></span>
-                                </button>
-                                <button class="btn btn-primary btn-xs" style="float:right; margin-left:5px" ng-click="cmdLeft()">
-                                    <span class="glyphicon glyphicon-arrow-left"></span>
-                                </button>
-
-
-                                <div>
+                                <div class="input-group">
                                     <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary btn-sm" style="margin-left:5px" ng-click="cmdLeft()" data-toggle="tooltip"  title="turn left">
+                                            <span class="glyphicon glyphicon-arrow-left"></span>
+                                        </button>
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary btn-sm" style="margin-left:5px" ng-click="cmdForward()" data-toggle="tooltip"  title="move forward">
+                                            <span class="glyphicon glyphicon-arrow-up"></span>
+                                        </button>
+                                    </span>
+
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary btn-sm" style="margin-left:5px" ng-click="cmdRight()" data-toggle="tooltip"  title="turn right">
+                                            <span class="glyphicon glyphicon-arrow-right"></span>
+                                        </button>
+                                    </span>
                                 </div>
+
+
                             </div>
 
 
