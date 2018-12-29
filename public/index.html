@@ -170,15 +170,16 @@
                             <div class="form-group" style="margin: 15px 15px">
                                 <label>Commands:</label>
 
-                                <button class="btn btn-primary btn-xs" ng-click="cmdLeft()">
-                                    <span class="glyphicon glyphicon-arrow-left"></span>
-                                </button>
-                                <button class="btn btn-primary btn-xs" ng-click="cmdForward()">
-                                    <span class="glyphicon glyphicon-arrow-up"></span>
-                                </button>
-                                <button class="btn btn-primary btn-xs" ng-click="cmdRight()">
+                                <button class="btn btn-primary btn-xs" style="float:right; margin-left:5px" ng-click="cmdRight()">
                                     <span class="glyphicon glyphicon-arrow-right"></span>
                                 </button>
+                                <button class="btn btn-primary btn-xs" style="float:right; margin-left:5px" ng-click="cmdForward()">
+                                    <span class="glyphicon glyphicon-arrow-up"></span>
+                                </button>
+                                <button class="btn btn-primary btn-xs" style="float:right; margin-left:5px" ng-click="cmdLeft()">
+                                    <span class="glyphicon glyphicon-arrow-left"></span>
+                                </button>
+
 
                                 <div>
                                     <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
