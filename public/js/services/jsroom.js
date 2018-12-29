@@ -96,7 +96,10 @@ angular.module('jsRoomService', [])
 
                             result.code = 0;
                             result.msg = answer.data.msg;
-                            result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
+
+                            if (currRobotLocation) {
+                                result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
+                            }
 
                         } else {
                             result.code = 1;
@@ -144,18 +147,53 @@ angular.module('jsRoomService', [])
                             msg  : null,
                             data : null,
                         };
-                        if (answer.data.code == 0) {
-                            let currRobotLocation = answer.data.data.robotLocation;
 
-                            result.code = 0;
-                            result.msg = answer.data.msg;
-                            result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
-                        } else {
-                            let currRobotLocation = answer.data.data.currRobotLocation;
+                        let currPoint = null;
+                        let currFacing = null;
+                        let currCmd = null;
+                        let errCmd = null;
 
-                            result.code = 1;
-                            result.msg = answer.data.msg;
-                            result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
+                        switch (answer.data.code) {
+                            case 102:
+
+                                result.code = 1;
+
+                                currPoint = answer.data.data.currRobotLocation.point;
+                                currFacing = answer.data.data.currRobotLocation.direction;
+                                errCmd = answer.data.data.errCmd;
+
+                                result.msg = answer.data.msg + ' ' + '[' + errCmd + ']';
+
+                                result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
+
+                                break;
+
+                            case 103:
+
+                                result.code = 1;
+
+                                currPoint = answer.data.data.currRobotLocation.point;
+                                currFacing = answer.data.data.currRobotLocation.direction;
+                                currCmd = answer.data.data.currCommand;
+                                nextPoint = answer.data.data.nextPoint;
+
+                                result.msg = answer.data.msg + ' can not from (' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')' + ' to ' + '(' + nextPoint.x + ' ' + nextPoint.y + ') by command [' + currCmd + ']';
+
+                                result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
+
+                                break;
+                            case 0:
+                            default:
+
+                                result.code = 0;
+
+                                currPoint = answer.data.data.robotLocation.point;
+                                currFacing = answer.data.data.robotLocation.direction;
+
+                                result.msg = answer.data.msg;
+
+                                result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
+
                         }
 
                         deferred.resolve(result);

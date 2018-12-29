@@ -63,6 +63,7 @@ class CJsRoomBase {
                     let returnData = {
                         currRobotLocation: this.getRobotLocation(),
                         currCommand: cmd,
+                        nextPoint: nextRobotLocation.point,
                     }
                     CResult.ROBOT_CANT_MOVE.setData(returnData);
                     result = CResult.ROBOT_CANT_MOVE;

@@ -25,7 +25,7 @@ angular.module('jsRoomController', [])
             console.log($scope.roomType, typeof($scope.roomType));
             console.log($scope.sideLength, typeof($scope.sideLength));
 
-			if ($scope.roomType != undefined && $scope.sideLength != undefined) {
+			if ($scope.roomType != undefined && $scope.sideLength != undefined && $scope.sideLength != '') {
 
 /* 				jsRoom.initRoom($scope.roomType, $scope.sideLength)
 					.success(function(data) {
@@ -77,6 +77,13 @@ angular.module('jsRoomController', [])
 
                         $scope.isNotRobotInited = false;
 					}); */
+
+                if ($scope.point.x == '') {
+                    $scope.point.x = '0';
+                }
+                if ($scope.point.y == '') {
+                    $scope.point.y = '0';
+                }
 
                 jsRoom.initRobot($scope.point.x, $scope.point.y).then(
 
