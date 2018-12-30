@@ -53,7 +53,10 @@ class CJsRoomBase {
             let currRobotLocation = this.robotLocation;
 
             cRobotAction.cmd = cmd;
+            cRobotAction.cmdType = EnumCommand.CommandType[cmd];
             cRobotAction.startLocation = this.robotLocation;
+
+            logger.debug(cRobotAction);
 
             if (this.cmdIsValid(cmd) && this.robot.canExcute(cmd)) {
 

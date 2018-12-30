@@ -98,7 +98,7 @@ angular.module('jsRoomService', [])
                             result.msg = answer.data.msg;
 
                             if (currRobotLocation) {
-                                result.data = '(' + currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction + ')';
+                                result.data = currRobotLocation.point.x + ' ' + currRobotLocation.point.y + ' ' + currRobotLocation.direction;
                             }
 
                         } else {
@@ -170,10 +170,10 @@ angular.module('jsRoomService', [])
                                     let startPoint = robotAction.startLocation.point;
                                     let startFacing = robotAction.startLocation.direction;
 
-                                    result.msg.push('Command: ' + robotAction.cmd + ', Move: (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (), Result: ' + robotAction.result);
+                                    result.msg.push('Command: ' + robotAction.cmd + ', ' + robotAction.cmdType + ': (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (), Result: ' + robotAction.result);
                                 });
 
-                                result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
+                                result.data = currPoint.x + ' ' + currPoint.y + ' ' + currFacing;
 
                                 break;
 
@@ -195,10 +195,10 @@ angular.module('jsRoomService', [])
                                     let endPoint = robotAction.endLocation.point;
                                     let endFacing = robotAction.endLocation.direction;
 
-                                    result.msg.push('Command: ' + robotAction.cmd + ', Move: (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (' + endPoint.x + ', ' + endPoint.y + ', ' + endFacing + '), Result: ' + robotAction.result);
+                                    result.msg.push('Command: ' + robotAction.cmd + ', ' + robotAction.cmdType + ': (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (' + endPoint.x + ', ' + endPoint.y + ', ' + endFacing + '), Result: ' + robotAction.result);
                                 });
 
-                                result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
+                                result.data = currPoint.x + ' ' + currPoint.y + ' ' + currFacing;
 
                                 break;
                             case 0:
@@ -219,10 +219,10 @@ angular.module('jsRoomService', [])
                                     let endPoint = robotAction.endLocation.point;
                                     let endFacing = robotAction.endLocation.direction;
 
-                                    result.msg.push('Command: ' + robotAction.cmd + ', Move: (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (' + endPoint.x + ', ' + endPoint.y + ', ' + endFacing + '), Result: ' + robotAction.result);
+                                    result.msg.push('Command: ' + robotAction.cmd + ', ' + robotAction.cmdType + ': (' + startPoint.x + ', ' + startPoint.y + ', ' + startFacing + ') ---> (' + endPoint.x + ', ' + endPoint.y + ', ' + endFacing + '), Result: ' + robotAction.result);
                                 });
 
-                                result.data = '(' + currPoint.x + ' ' + currPoint.y + ' ' + currFacing + ')';
+                                result.data = currPoint.x + ' ' + currPoint.y + ' ' + currFacing;
 
                         }
 

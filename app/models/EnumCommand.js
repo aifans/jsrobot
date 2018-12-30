@@ -7,6 +7,16 @@ const EnumCommand = {
     S_TURN_RIGHT:       'H',
     S_MOVE_FORWARD:     'G',
     S_MOVE_BACKWARD:    'B',
+    CommandType: {
+        'L': 'Turn',
+        'R': 'Turn',
+        'V': 'Turn',
+        'H': 'Turn',
+        'F': 'Move',
+        'G': 'Move',
+        'B': 'Move',
+    },
+
 };
 
 module.exports = EnumCommand;
