@@ -36,6 +36,7 @@ angular.module('jsRoomController', [])
                         $scope.isNotRoomInited = false;
 					}); */
 
+                $scope.robotLocation = '';
                 jsRoom.initRoom($scope.roomType, sideLength).then(
 
                     function(answer){
