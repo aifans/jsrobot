@@ -10,6 +10,11 @@ let EnumRoomType = require('./EnumRoomType.js');
 let CPoint = require('./CPoint.js');
 let CRobotAction = require('./CRobotAction.js');
 
+/**
+ * All the oparation are almost excuting in the class room.
+ * Every room hold there own ( sub class) room type array. Available position is set to 0, unavailable position is set to -1.
+ * Room calculate  the position for the robot and judge if the position is valid according to each command.
+ */
 class CJsRoomBase {
 
     constructor() {
@@ -25,18 +30,42 @@ class CJsRoomBase {
         logger.debug('CJsRoom constructing....');
     }
 
+    /**
+     * It can't return the this.robotLocation directly. cause if the room is circle the coordinator is shift.
+     * and when room operate the robot it use the original coordinator, so it must be fixed when the room is circle.
+     */
     getRobotLocation() {
         logger.debug('subclass should implement this method...');
     }
 
+    /**
+     * @description
+     * instantiated by sub class. room shape may be different, need to calculate different valid room point.
+     * t.x. square room or circle room or any other shape.
+     *
+     */
     initRoom() {
         logger.debug('subclass should implement this method...');
     }
 
+    /**
+     * @description
+     * every room init their own robot. coordinator may be different.
+     *
+     * @param {string} point
+     * coordinator for robot.
+     */
     initRobot(point) {
         logger.debug('subclass should implement this method...');
     }
 
+    /**
+     * It reads the command from the commandString one by one, calculate the position, see if the position is valid, let the robot turn or move or stop.
+     * It use the original coordinator, that means the point (0, 0) is located at the left-top of the room square, just like the index of the array.
+     *
+     * @param commandString
+     * @returns {*}
+     */
     moveRobot(commandString) {
         //logger.debug(commandString);
 
@@ -126,6 +155,14 @@ class CJsRoomBase {
 
     }
 
+    /**
+     * If point is in the square and the flag in the point equal 0 then we can believe that it's in the room.
+     * If the room is square obviously it's in the room when it's in the square.
+     * If the room is circle it's in the room when it's in the square and flag equal 0.
+     *
+     * @param point
+     * @returns {boolean}
+     */
     isInRoom(point) {
 
         //logger.debug(point.toString(), this.grid[point.x][point.y]);

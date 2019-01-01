@@ -19,6 +19,12 @@ class CJsRoomCircle extends CJsRoomBase {
         logger.debug('CJsRoomCircle constructing....');
     }
 
+    /**
+     * Need shift the coordinator.
+     * Cause if the room is circle the point(0, 0) is located at the center of the room.
+     *
+     * @returns {CRobotLocation}
+     */
     getRobotLocation() {
         let point = this.coord2Circle(this.robotLocation.point);
         let robotLocation = new CRobotLocation(point, this.robotLocation.direction);
@@ -36,15 +42,16 @@ class CJsRoomCircle extends CJsRoomBase {
         this.width = radius*2+1;
         this.radius = radius;
 
-        // 先生成包含的圆的矩形
+        // 1 generate a square that contained the circle.
         let grid = new Array();
         for (let i = 0; i < this.length; i++) {
             grid[i] = new Array();
             for (let j = 0; j < this.width; j++) {
                 grid[i][j] = 0;
 
-                // 离原点的距离的平方 >= 半径平方
-                // 这些点都不属于房间
+                // 2 then set the point out of the circle equal -1.
+                // If the distance of the point to the center of the circle >= radius the point is not in the circle.
+                // according to the Pythagorean theorem: a^2 + b^2 = c^2
                 if ((Math.pow((i-radius), 2) + Math.pow((j-radius), 2)) >= Math.pow(radius, 2)) {
                     grid[i][j] = -1;
                 }

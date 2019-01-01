@@ -25,8 +25,31 @@ serialUtility.declarePersistable(CRobotAction);
 
 module.exports = function(app) {
 
-    // initRoom?type=1&len=5
-    // initRoom?type=2&r=10
+    /**
+     * @api {get} /api/initRoom init the room
+     * @apiDescription init the room
+     * @apiName initRoom
+     * @apiParam {string} type room type
+     * @apiParam {string} len or r 密码
+     * @apiSuccess {json} result
+     * @apiSuccessExample {json} Success-Response:
+     *  {
+     *      "code":0,
+     *      "msg":"Success.",
+     *      "data":{
+     *          "length":5,
+     *          "width":5,
+     *          "grid":[[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]],
+     *          "robot":null,
+     *          "robotLocation":null,
+     *          "robotActionHistory":[],
+     *          "sideLength":5
+     *      }
+     *  }
+     *
+     * @apiSampleRequest http://localhost:8080/api/initRoom?type=1&len=5
+     * @apiSampleRequest http://localhost:8080/api/initRoom?type=2&r=10
+     */
     app.get('/api/initRoom', function(req, res) {
 
         logger.debug(req.session);
@@ -118,7 +141,29 @@ module.exports = function(app) {
 
     });
 
-    // initRobot?x=1&y=2
+    /**
+     * @api {get} /api/initRoom init the room
+     * @apiDescription init the room
+     * @apiName initRoom
+     * @apiParam {string} type room type
+     * @apiParam {string} len or r 密码
+     * @apiSuccess {json} result
+     * @apiSuccessExample {json} Success-Response:
+     *  {
+     *      "code":0,
+     *      "msg":"Success.",
+     *      "data":{
+     *          "robotLocation":{
+     *              "point":{
+     *                  "x":1,
+     *                  "y":2},
+     *              "direction":"N"
+     *          }
+     *      }
+     *  }
+     *
+     * @apiSampleRequest http://localhost:8080/api/initRobot?x=1&y=2
+     */
     app.get('/api/initRobot', function(req, res) {
 
         logger.debug(req.session);
@@ -166,6 +211,41 @@ module.exports = function(app) {
     });
 
     // moveRobot?cmd=HGHGGHGHG
+    /**
+     * @api {get} /api/initRoom init the room
+     * @apiDescription init the room
+     * @apiName initRoom
+     * @apiParam {string} type room type
+     * @apiParam {string} len or r 密码
+     * @apiSuccess {json} result
+     * @apiSuccessExample {json} Success-Response:
+     *  {
+     *      "code":0,
+     *      "msg":"Success.",
+     *      "data":{
+     *          "robotLocation":{
+     *              "point":{
+     *                  "x":1,
+     *                  "y":3
+     *              },
+     *              "direction":"N"
+     *          },
+     *          "robotActionHistory":[
+     *              {"cmd":"H","cmdType":"Turn","startLocation":{"point":{"x":1,"y":2},"direction":"N"},"endLocation":{"point":{"x":1,"y":2},"direction":"E"},"result":"Success."},
+     *              {"cmd":"G","cmdType":"Move","startLocation":{"point":{"x":1,"y":2},"direction":"E"},"endLocation":{"point":{"x":2,"y":2},"direction":"E"},"result":"Success."},
+     *              {"cmd":"H","cmdType":"Turn","startLocation":{"point":{"x":2,"y":2},"direction":"E"},"endLocation":{"point":{"x":2,"y":2},"direction":"S"},"result":"Success."},
+     *              {"cmd":"G","cmdType":"Move","startLocation":{"point":{"x":2,"y":2},"direction":"S"},"endLocation":{"point":{"x":2,"y":3},"direction":"S"},"result":"Success."},
+     *              {"cmd":"G","cmdType":"Move","startLocation":{"point":{"x":2,"y":3},"direction":"S"},"endLocation":{"point":{"x":2,"y":4},"direction":"S"},"result":"Success."},
+     *              {"cmd":"H","cmdType":"Turn","startLocation":{"point":{"x":2,"y":4},"direction":"S"},"endLocation":{"point":{"x":2,"y":4},"direction":"W"},"result":"Success."},
+     *              {"cmd":"G","cmdType":"Move","startLocation":{"point":{"x":2,"y":4},"direction":"W"},"endLocation":{"point":{"x":1,"y":4},"direction":"W"},"result":"Success."},
+     *              {"cmd":"H","cmdType":"Turn","startLocation":{"point":{"x":1,"y":4},"direction":"W"},"endLocation":{"point":{"x":1,"y":4},"direction":"N"},"result":"Success."},
+     *              {"cmd":"G","cmdType":"Move","startLocation":{"point":{"x":1,"y":4},"direction":"N"},"endLocation":{"point":{"x":1,"y":3},"direction":"N"},"result":"Success."}
+     *          ]
+     *      }
+     *  }
+     *
+     * @apiSampleRequest http://localhost:8080/api/moveRobot?cmd=HGHGGHGHG
+     */
     app.get('/api/moveRobot', function(req, res) {
 
         logger.debug(req.session);
