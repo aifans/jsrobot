@@ -22,7 +22,7 @@ class CJsRoomBase {
         this.width = 0;
         this.grid = null;
 
-        this.robot = null;
+        this.robot = new CJsRobot();
         this.robotLocation = null;
 
         this.robotActionHistory = new Array();
@@ -87,7 +87,7 @@ class CJsRoomBase {
 
             logger.debug(cRobotAction);
 
-            if (this.cmdIsValid(cmd) && this.robot.canExcute(cmd)) {
+            if (this.cmdIsValid(cmd) && this.robot.canExecute(cmd)) {
 
                 logger.info('sending to robot:', cmd);
 

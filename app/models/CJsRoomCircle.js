@@ -73,7 +73,7 @@ class CJsRoomCircle extends CJsRoomBase {
         let squarePoint = this.coord2Square(point);
         if (this.isInRoom(squarePoint)) {
 
-            this.robot = new CJsRobot();
+            //this.robot = new CJsRobot();
             this.robotLocation = new CRobotLocation(squarePoint, EnumDirection.NORTH);
 
             logger.info('robot init location:', squarePoint.toString(), '=', this.getRobotLocation().toString());
