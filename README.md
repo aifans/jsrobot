@@ -29,7 +29,7 @@ Room is **square** of **5x5** and the start position for the robot at **(1,2)**,
     a) cd the dir where the server.js is in, then run the command:
     
         nodejs server.js
-        
+
 ## Architecture
 The entire system can be divided into two parts: the front end and the back end.
 
@@ -42,3 +42,17 @@ Rectangles can be represented by coordinate points and stored in a two-dimension
 This simplifies the problem of moving the robot in a rectangular room.
 
 In practice, the robot itself should be movable, and it can be judged whether it can move to the next position. For example, it can be judged whether there is an obstacle in front by infrared or laser or collision detection. However, in this project, the movement of the robot and the judgment of the obstacle can be given to the room for execution, so that the robot can be designed to be only a passive object that receives an instruction to perform an action.
+
+### API design
+| Resources | GET | POST | Description |
+| :---: | :--- | :--- | :---: |
+| rooms | ~~/rooms~~ | | |
+| | /rooms/room_id | | |
+| | | /rooms/type/len | |
+| robot | ~~/robots~~ | | |
+| | /robots/robot_id | | |
+| | ~~/robots?room_id=xxx~~ | | |
+| | ~~/rooms/room_id/robots~~ | | |
+| | ~~/rooms/room_id/robot_id~~ | | |
+| | | /rooms/room_id/robots/x/y | |
+| robot movement | | /robot_id/movement  | |
