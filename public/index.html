@@ -181,25 +181,27 @@
                                 <label>Commands:</label>
 
                                 <div class="input-group">
-                                    <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
+
 
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-sm" style="margin-left:5px" ng-click="cmdLeft()" data-toggle="tooltip"  title="turn left">
+                                        <button class="btn btn-primary btn-sm" style="margin-right:5px" ng-click="cmdLeft()" data-toggle="tooltip"  title="turn left">
                                             <span class="glyphicon glyphicon-arrow-left"></span>
                                         </button>
                                     </span>
 
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-sm" style="margin-left:5px" ng-click="cmdForward()" data-toggle="tooltip"  title="move forward">
+                                        <button class="btn btn-primary btn-sm" style="margin-right:5px" ng-click="cmdForward()" data-toggle="tooltip"  title="move forward">
                                             <span class="glyphicon glyphicon-arrow-up"></span>
                                         </button>
                                     </span>
 
                                     <span class="input-group-btn">
-                                        <button class="btn btn-primary btn-sm" style="margin-left:5px" ng-click="cmdRight()" data-toggle="tooltip"  title="turn right">
+                                        <button class="btn btn-primary btn-sm" style="margin-right:5px" ng-click="cmdRight()" data-toggle="tooltip"  title="turn right">
                                             <span class="glyphicon glyphicon-arrow-right"></span>
                                         </button>
                                     </span>
+
+                                    <input type="text" class="form-control" ng-model="cmdString" placeholder="commands string.">
                                 </div>
 
 
