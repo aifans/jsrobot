@@ -40,7 +40,7 @@ class CJsRoomCircle extends CJsRoomBase {
 
         this.length = radius*2-1;
         this.width = radius*2-1;
-        this.radius = radius;
+        this.radius = radius-1;
 
         // 1 generate a square that contained the circle.
         let grid = new Array();
