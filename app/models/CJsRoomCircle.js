@@ -38,8 +38,8 @@ class CJsRoomCircle extends CJsRoomBase {
 
         logger.info('initing room circle......');
 
-        this.length = radius*2+1;
-        this.width = radius*2+1;
+        this.length = radius*2-1;
+        this.width = radius*2-1;
         this.radius = radius;
 
         // 1 generate a square that contained the circle.
