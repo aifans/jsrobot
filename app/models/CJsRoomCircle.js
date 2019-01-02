@@ -38,9 +38,11 @@ class CJsRoomCircle extends CJsRoomBase {
 
         logger.info('initing room circle......');
 
-        this.length = radius*2-1;
-        this.width = radius*2-1;
-        this.radius = radius-1;
+        this.radius = radius;
+        this.radius_for_cal = radius-1;
+
+        this.length = this.radius_for_cal*2+1;
+        this.width = this.radius_for_cal*2+1;
 
         // 1 generate a square that contained the circle.
         let grid = new Array();
@@ -52,7 +54,7 @@ class CJsRoomCircle extends CJsRoomBase {
                 // 2 then set the point out of the circle equal -1.
                 // If the distance of the point to the center of the circle >= radius the point is not in the circle.
                 // according to the Pythagorean theorem: a^2 + b^2 = c^2
-                if ((Math.pow((i-radius), 2) + Math.pow((j-radius), 2)) >= Math.pow(radius, 2)) {
+                if ((Math.pow((i-this.radius_for_cal), 2) + Math.pow((j-this.radius_for_cal), 2)) > Math.pow(this.radius_for_cal, 2)) {
                     grid[i][j] = -1;
                 }
             }
@@ -100,16 +102,16 @@ class CJsRoomCircle extends CJsRoomBase {
     }
 
     coord2Square(circlePoint) {
-        let x = circlePoint.x+this.radius;
-        let y = circlePoint.y+this.radius;
+        let x = circlePoint.x+this.radius_for_cal;
+        let y = circlePoint.y+this.radius_for_cal;
         let point = new CPoint(x, y);
 
         return point;
     }
 
     coord2Circle(squarePoint) {
-        let x = squarePoint.x-this.radius;
-        let y = squarePoint.y-this.radius;
+        let x = squarePoint.x-this.radius_for_cal;
+        let y = squarePoint.y-this.radius_for_cal;
         let point = new CPoint(x, y);
 
         return point;
